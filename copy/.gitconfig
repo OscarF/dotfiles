@@ -1,0 +1,69 @@
+[core]
+	editor = atom -w
+	whitespace = trailing-space,space-before-tab
+	pager = less -R -S -X -x4 # 4-spaces tabs
+
+[alias]
+	co = checkout
+	st = status
+	ci = commit
+	staged = diff --cached
+	both = diff HEAD
+	oneline = log --pretty=oneline
+	b = branch -a
+	unstage = reset HEAD
+	sum = log --pretty=format:"%h %Cblue%ai%Creset %Cgreen%an%Creset %s"
+	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(black)% h%Creset% gd'
+	wdiff = diff -w --color-words
+	wstaged = diff --staged -w --color-words
+	w = wtf
+	pull = pull --ff-only
+
+[branch "master"]
+  remote = origin
+  merge = refs/heads/master
+
+[color]
+  ui = auto
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+	ui = auto
+[color "branch"]
+	current = white cyan bold
+	local = cyan
+	remote = yellow
+[color "diff"]
+	commit = yellow bold
+	plain = normal
+	meta = yellow
+	frag = magenta
+	old = red bold
+	new = green bold
+	whitespace = black red
+[color "status"]
+	header = normal
+	updated = green
+	changed = red
+	untracked = magenta bold
+
+[log]
+	date = iso
+
+[status]
+	submodulesummary = true
+
+[diff]
+	renames = copies # Detect copies as well as renames.
+
+[push]
+	default = tracking
+
+[apply]
+	whitespace = fix
+
+[help]
+	format = man
+	autocorrect = 7
