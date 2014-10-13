@@ -373,6 +373,14 @@ defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 
 
 ###############################################################################
+# Sound
+###############################################################################
+
+echo ""
+echo "Disable feedback beep on volume change"
+defaults write -g 'com.apple.sound.beep.feedback' -bool false
+
+###############################################################################
 # Time Machine
 ###############################################################################
 
