@@ -11,14 +11,17 @@ function e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
 if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
   true | ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-fi
 
-if [[ "$(type -P brew)" ]]; then
   e_header "Updating Homebrew"
   brew doctor
   brew update
 
   # Install Homebrew recipes.
-  e_header "Installing Homebrew recipes: bash-completion git"
+  e_header "Installing Homebrew recipes: bash-completion git brew-cask"
   brew install bash-completion git
+  brew install caskroom/cask/brew-cask
+
+  # Set up Alfred
+  brew cask install alfred
+  brew cask alfred link
 fi
