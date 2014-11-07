@@ -34,15 +34,6 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until script has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-echo ""
-cecho "##############################################" $white
-cecho "#  This script will make your Ã¯Â£Â¿ Mac awesome." $white
-cecho "#   Follow the prompts and you'll be fine." $white
-cecho "#" $white
-cecho "#            ~ Happy Hacking ~" $white
-cecho "#############################################" $white
-echo ""
-
 
 ###############################################################################
 # General UI/UX
