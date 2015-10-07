@@ -21,7 +21,4 @@ if [[ ! "$(type -P brew)" ]]; then
   brew install bash-completion git
   brew install caskroom/cask/brew-cask
 
-  # Set up Alfred
-  brew cask install alfred
-  brew cask alfred link
 fi
