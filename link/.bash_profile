@@ -11,3 +11,8 @@ function src() {
 }
 
 src
+
+# For machine specific things we don't want on github
+if [ -f .exports ]; then
+  source .exports
+fi
