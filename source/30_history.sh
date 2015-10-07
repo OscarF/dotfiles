@@ -5,7 +5,7 @@ export HISTCONTROL="ignorespace:erasedups"
 export HISTTIMEFORMAT="[%F %T] "
 # Lots o' history.
 export HISTSIZE=10000
-export HISTFILESIZE=10000
+export HISTFILESIZE=$HISTSIZE
 
 shopt -s histappend
 # Allow use to re-edit a faild history substitution.
