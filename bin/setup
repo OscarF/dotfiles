@@ -15,10 +15,31 @@ if [[ ! "$(type -P brew)" ]]; then
   e_header "Updating Homebrew"
   brew doctor
   brew update
+  brew tap homebrew/versions
 
-  # Install Homebrew recipes.
-  e_header "Installing Homebrew recipes: bash-completion git brew-cask"
-  brew install bash-completion git
-  brew install caskroom/cask/brew-cask
+  # Bash 4
+  brew install bash
+  # regular bash-completion package is held back to an older release, so we get latest from versions.
+  # github.com/Homebrew/homebrew/blob/master/Library/Formula/bash-completion.rb#L3-L4
+  brew install homebrew/versions/bash-completion2
+
+  # Set new shell, Bash 4
+  sudo -s
+  BASHPATH=$(brew --prefix)/bin/bash
+  sudo echo $BASHPATH >> /etc/shells
+  chsh -s $BASHPATH # will set for current user only.
 
 fi
+
+# Install Homebrew recipes.
+e_header "Installing Homebrew recipes"
+
+# Install useful stuff
+brew install git
+brew install bash-completion # Also get old bash-completion
+
+# Get Brew Cask
+brew install caskroom/cask/brew-cask
+
+# Finally clean up
+brew cleanup
