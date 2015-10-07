@@ -18,6 +18,7 @@
 	wstaged = diff --staged -w --color-words
 	w = wtf
 	pull = pull --ff-only
+	shallow-clone = clone --depth=1
 
 [branch "master"]
   remote = origin
