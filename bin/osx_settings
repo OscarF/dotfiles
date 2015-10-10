@@ -75,9 +75,6 @@ defaults write com.apple.systemuiserver menuExtras -array \
   "/System/Library/CoreServices/Menu Extras/TextInput.menu" \
   "/System/Library/CoreServices/Menu Extras/Clock.menu"
 
-echo "Hiding the Spotlight icon"
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
-
 echo "Disable Notification Center and remove the menu bar icon"
 launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
