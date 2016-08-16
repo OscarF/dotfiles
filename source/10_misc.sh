@@ -8,11 +8,6 @@ if type npm &> /dev/null && [ -f $(npm prefix -g)/lib/node_modules/npm/lib/utils
   source $(npm prefix -g)/lib/node_modules/npm/lib/utils/completion.sh
 fi
 
-# Homebrew completion
-if  type brew &> /dev/null; then
-    source `brew --repository`/Library/Contributions/brew_bash_completion.sh
-fi;
-
 # Make Tab autocomplete regardless of filename case
 set completion-ignore-case on
 
