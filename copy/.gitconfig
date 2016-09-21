@@ -13,7 +13,7 @@
 	b = branch -a
 	unstage = reset HEAD
 	sum = log --pretty=format:"%h %Cblue%ai%Creset %Cgreen%an%Creset %s"
-	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(black)% h%Creset% gd'
+	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(blue)% h%Creset% gd'
 	wdiff = diff -w --color-words
 	wstaged = diff --staged -w --color-words
 	w = wtf
