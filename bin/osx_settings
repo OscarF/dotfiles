@@ -62,21 +62,22 @@ eh "General UI/UX"
 ###############################################################################
 
 echo "Hiding the menu bar icons"
-for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-  defaults write "${domain}" dontAutoLoad -array \
-    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-    "/System/Library/CoreServices/Menu Extras/User.menu"
-done
-defaults write com.apple.systemuiserver menuExtras -array \
-  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-  "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-  "/System/Library/CoreServices/Menu Extras/Battery.menu" \
-  "/System/Library/CoreServices/Menu Extras/Volume.menu" \
-  "/System/Library/CoreServices/Menu Extras/TextInput.menu" \
-  "/System/Library/CoreServices/Menu Extras/Clock.menu"
+defaults write com.apple.systemuiserver "NSStatusItem Visible Siri" -bool false
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.airport" -bool true
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.appleuser" -bool true
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.battery" -bool true
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.bluetooth" -bool true
+defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.clock" -bool true
 
-echo "Disable Notification Center and remove the menu bar icon"
-launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
+defaults write com.apple.systemuiserver menuExtras -array \
+  "/System/Library/CoreServices/Menu Extras/User.menu",
+  "/System/Library/CoreServices/Menu Extras/Clock.menu",
+  "/System/Library/CoreServices/Menu Extras/Battery.menu",
+  "/System/Library/CoreServices/Menu Extras/AirPort.menu",
+  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
+
+# echo "Disable Notification Center and remove the menu bar icon"
+# launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
 echo "Setting unit format"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
@@ -89,36 +90,8 @@ echo "Expanding the save panel by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
-
-echo "Automatically quit printer app once the print jobs complete"
-defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
-
-# Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
-echo "Displaying ASCII control characters using caret notation in standard text views"
-defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
-
-#
-# echo "Disabling system-wide resume"
-# defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
-
-echo "Disabling automatic termination of inactive apps"
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
-
 echo "Saving to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-
-echo "Reveal IP address, hostname, OS version, etc. when clicking the clock in the login window"
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-#
-# echo "Never go into computer sleep mode"
-# systemsetup -setcomputersleep Off > /dev/null
-
-echo "Check for software updates daily, not just once per week"
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-
-echo "Remove duplicates in the Open With menu"
-# /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 
 echo "Disable smart quotes and smart dashes as they're annoying when typing code"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
@@ -132,32 +105,25 @@ eh "Application handling"
 echo "Disabling OS X Gate Keeper (You'll be able to install any app you want from here on, not just Mac App Store apps)"
 sudo spctl --master-disable
 sudo defaults write /var/db/SystemPolicy-prefs.plist enabled -string no
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-echo "Disable the 'Are you sure you want to open this application?' dialog"
-defaults write com.apple.LaunchServices LSQuarantine -bool false
+# echo "Disable the 'Are you sure you want to open this application?' dialog"
+# defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 
 ###############################################################################
 eh "Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 ###############################################################################
 
-echo "Increasing sound quality for Bluetooth headphones/headsets"
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 50
-
-echo "Enabling full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-
-echo "Disabling press-and-hold for keys in favor of a key repeat"
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+# echo "Disabling press-and-hold for keys in favor of a key repeat"
+# defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 echo "Setting a blazingly fast keyboard repeat rate (ain't nobody got time for special chars while coding!)"
-defaults write NSGlobalDomain KeyRepeat -int 0
-defaults write NSGlobalDomain InitialKeyRepeat -int 20
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 echo "Trackpad behavior"
-defaults write NSGlobalDomain "com.apple.swipescrolldirection" -string 0
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -bool false
@@ -175,12 +141,12 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadScroll
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 2
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad USBMouseStopsTrackpad -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad UserPreferences -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad version -int 5
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad version -int 5
 
 echo "Bluetooth mouse settings"
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonDivision -int 55
@@ -193,51 +159,25 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseTwoFingerHor
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseVerticalScroll -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse UserPreferences -bool true
 
-# echo "Disabling auto-correct"
-# defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
 echo "Setting trackpad & mouse speed to a reasonable number"
 defaults write -g com.apple.trackpad.scaling 2
 defaults write -g com.apple.mouse.scaling 2.5
 
-echo "Turn off keyboard illumination when computer is not used for 5 minutes"
-defaults write com.apple.BezelServices kDimTime -int 300
-
-###############################################################################
-eh "Screen"
-###############################################################################
-
-echo "Requiring password immediately after sleep or screen saver begins"
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
-
-echo "Enabling subpixel font rendering on non-Apple LCDs"
-defaults write NSGlobalDomain AppleFontSmoothing -int 2
-
-echo "Enabling HiDPI display modes (requires restart)"
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+# echo "Turn off keyboard illumination when computer is not used for 5 minutes"
+# defaults write com.apple.BezelServices kDimTime -int 300
 
 ###############################################################################
 eh "Finder"
 ###############################################################################
 
-echo "Disable window animations and Get Info animations"
-defaults write com.apple.finder DisableAllAnimations -bool true
+# echo "Disable window animations and Get Info animations"
+# defaults write com.apple.finder DisableAllAnimations -bool true
 
 echo "Showing icons for hard drives, servers, and removable media on the desktop"
 defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
 
-echo "Show hidden files in Finder"
-defaults write com.apple.finder AppleShowAllFiles -bool true
-
 echo "Show the ~/Library folder"
 chflags nohidden ~/Library
-
-echo "Showing all filename extensions in Finder by default"
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-
-echo "Show status bar in Finder"
-defaults write com.apple.finder ShowStatusBar -bool true
 
 echo "Displaying full POSIX path as Finder window title"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
@@ -252,29 +192,10 @@ echo "Disabling the warning when changing a file extension"
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 echo "Use column view in all Finder windows by default"
-defaults write com.apple.finder FXPreferredViewStyle Clmv
-
-echo "Expand the following File Info panes: General”, “Open with”, and “Sharing & Permissions"
-defaults write com.apple.finder FXInfoPanesExpanded -dict \
-  General -bool true \
-  OpenWith -bool true \
-  Privileges -bool true
+defaults write com.apple.finder FXPreferredViewStyle clmv
 
 echo "Avoiding the creation of .DS_Store files on network volumes"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-
-echo "Enable spring loading of directories and remove delay"
-defaults write NSGlobalDomain com.apple.springing.enabled -bool true
-defaults write NSGlobalDomain com.apple.springing.delay -int 0
-
-# echo "Disabling disk image verification"
-# defaults write com.apple.frameworks.diskimages skip-verify -bool true
-# defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
-# defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
-
-echo "Enabling snap-to-grid for icons on the desktop and in other icon views"
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 
 ###############################################################################
@@ -289,125 +210,18 @@ then
 fi
 
 echo "Setting the icon size of Dock items to 35 pixels and enabling a subtle maginifation"
-defaults write com.apple.dock tilesize -int 30
-defaults write com.apple.dock magnification -bool true
-defaults write com.apple.dock largesize -int 32
+defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock magnification -bool false
+defaults write com.apple.dock largesize -int 36
 
-echo "Speeding up Mission Control animations and grouping windows by application"
-defaults write com.apple.dock expose-animation-duration -float 0.1
-defaults write com.apple.dock "expose-group-by-app" -bool true
+# echo "Speeding up Mission Control animations and grouping windows by application"
+# defaults write com.apple.dock expose-animation-duration -float 0.1
+# defaults write com.apple.dock "expose-group-by-app" -bool true
 
 echo "Setting Dock to auto-hide and removing the auto-hiding delay"
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
-
-
-###############################################################################
-eh "Safari & WebKit"
-###############################################################################
-
-echo "Hiding Safari's bookmarks bar by default"
-defaults write com.apple.Safari ShowFavoritesBar -bool false
-
-echo "Hiding Safari's sidebar in Top Sites"
-defaults write com.apple.Safari ShowSidebarInTopSites -bool false
-
-echo "Disabling Safari's thumbnail cache for History and Top Sites"
-defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
-
-echo "Enabling Safari's debug menu"
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-
-echo "Making Safari's search banners default to Contains instead of Starts With"
-defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
-
-echo "Removing useless icons from Safari's bookmarks bar"
-defaults write com.apple.Safari ProxiesInBookmarksBar "()"
-
-echo "Allow hitting the Backspace key to go to the previous page in history"
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
-
-echo "Enabling the Develop menu and the Web Inspector in Safari"
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
-
-echo "Adding a context menu item for showing the Web Inspector in web views"
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-
-
-###############################################################################
-eh "Mail"
-###############################################################################
-
-echo "Setting email addresses to copy as 'foo@example.com' instead of 'Foo Bar <foo@example.com>' in Mail.app"
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-
-###############################################################################
-eh "Terminal & iTerm"
-###############################################################################
-
-echo "Enabling UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
-defaults write com.apple.terminal StringEncodings -array 4
-defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
-defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
-
-
-###############################################################################
-eh "Sound"
-###############################################################################
-
-echo "Disable startup sound"
-sudo nvram SystemAudioVolume=" "
-
-echo "Disable feedback beep on volume change"
-defaults write -g 'com.apple.sound.beep.feedback' -bool false
-
-echo "Disable user interface sound effects"
-defaults write com.apple.systemsound "com.apple.sound.uiaudio.enabled" -int 0
-
-###############################################################################
-eh "Time Machine"
-###############################################################################
-
-echo "Preventing Time Machine from prompting to use new hard drives as backup volume"
-defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
-
-echo "Disabling local Time Machine backups"
-hash tmutil &> /dev/null && sudo tmutil disablelocal
-
-###############################################################################
-eh "Messages"
-###############################################################################
-
-# echo "Disable automatic emoji substitution (i.e. use plain text smileys)"
-# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
-
-echo "Disable smart quotes as it's annoying for messages that contain code"
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
-
-echo "Disable continuous spell checking"
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
-
-
-###############################################################################
-eh "System Settings"
-###############################################################################
-
-echo "Disable hibernation (speeds up entering sleep mode)"
-sudo pmset -a hibernatemode 0
-
-echo "Disable the sudden motion sensor as it's not useful for SSDs"
-sudo pmset -a sms 0
-
-echo "Speeding up wake from sleep to 3 hours from an hour"
-# http://www.cultofmac.com/221392/quick-hack-speeds-up-retina-macbooks-wake-from-sleep-os-x-tips/
-sudo pmset -a standbydelay 10800
-
-echo "Disable annoying backswipe in Chrome"
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-
 
 ###############################################################################
 # "Kill affected applications"

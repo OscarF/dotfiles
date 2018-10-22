@@ -10,20 +10,17 @@ function e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
 # Install Homebrew.
 if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
-  true | ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+  true | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 e_header "Updating Homebrew"
 brew doctor
 brew update
-brew tap homebrew/versions
 
 if [ ! -f $(brew --prefix)/bin/bash ]; then
   # Bash 4
   brew install bash
-  # regular bash-completion package is held back to an older release, so we get latest from versions.
-  # github.com/Homebrew/homebrew/blob/master/Library/Formula/bash-completion.rb#L3-L4
-  brew install homebrew/versions/bash-completion2
+  brew install bash-completion@2
 
   # Set new shell, Bash 4
   BASHPATH=$(brew --prefix)/bin/bash
@@ -37,8 +34,5 @@ e_header "Installing Homebrew recipes"
 # Install useful stuff
 brew install git
 
-# Get Brew Cask
-brew install caskroom/cask/brew-cask
-
-# Finally clean up
+# Finally clean brewup
 brew cleanup
