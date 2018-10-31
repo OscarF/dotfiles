@@ -209,12 +209,16 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 eh "Dock & Mission Control"
 ###############################################################################
 
-read -p "Do you want to remove all icons from the Dock? y/N" -n 1 REMOVE_DOCK_ICONS
-if [ ! -z "$1" && $REMOVE_DOCK_ICONS =~ ^[Yy]$ ]
-then
+#read -p "Do you want to remove all icons from the Dock? y/N" -n 1 REMOVE_DOCK_ICONS
+#if [ ! -z "$1" && $REMOVE_DOCK_ICONS =~ ^[Yy]$ ]
+#then
+#  echo "Removing all icons from the Dock"
+#  defaults write com.apple.dock persistent-apps -array
+#fi
+
+#Remove all icons from the Dock
   echo "Removing all icons from the Dock"
   defaults write com.apple.dock persistent-apps -array
-fi
 
 echo "Setting the icon size of Dock items to 35 pixels and enabling a subtle maginifation"
 defaults write com.apple.dock tilesize -int 36
