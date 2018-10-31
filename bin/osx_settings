@@ -79,6 +79,13 @@ defaults write com.apple.systemuiserver menuExtras -array \
 # echo "Disable Notification Center and remove the menu bar icon"
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
+echo "Setting keyboard layouts"
+defaults write NSGlobalDomain AppleLanguages -array "en-SE", "sv-SE"
+defaults write NSGlobalDomain AppleLocale -string "en_SE"
+
+# Show language menu in the top right corner of the boot screen
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+
 echo "Setting unit format"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
