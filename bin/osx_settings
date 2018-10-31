@@ -234,6 +234,20 @@ defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
 
+
+# Always display full control strip (ignoring App Controls)
+defaults write com.apple.touchbar.agent PresentationModeGlobal fullControlStrip
+
+# Customise content of touch bar
+defaults write com.apple.controlstrip FullCustomized -array "com.apple.system.group.brightness",
+  "com.apple.system.mission-control",
+  "com.apple.system.group.media",
+  "com.apple.system.group.volume",
+  NSTouchBarItemIdentifierFlexibleSpace,
+  "com.apple.system.input-menu",
+  NSTouchBarItemIdentifierFlexibleSpace,
+  "com.apple.system.screen-lock"
+
 ###############################################################################
 # "Kill affected applications"
 ###############################################################################
