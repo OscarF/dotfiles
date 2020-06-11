@@ -10,7 +10,7 @@ function e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
 # Install Homebrew.
 if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
-  true | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 e_header "Updating Homebrew"
