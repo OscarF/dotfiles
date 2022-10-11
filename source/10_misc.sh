@@ -30,7 +30,6 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
-### Should probably move this to .inputrc
 # Use the text that has already been typed as the prefix for searching through
 # commands (basically more intelligent Up/Down behavior)
 if [[ $- == *i* ]]

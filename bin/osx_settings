@@ -33,6 +33,10 @@ eh () {
   cecho "${1}" $cyan
 }
 
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+osascript -e 'tell application "System Preferences" to quit'
+
 # Ask for the administrator password upfront
 sudo -v
 
@@ -61,24 +65,6 @@ fi
 eh "General UI/UX"
 ###############################################################################
 
-echo "Hiding the menu bar icons"
-defaults write com.apple.systemuiserver "NSStatusItem Visible Siri" -bool false
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.airport" -bool true
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.appleuser" -bool true
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.battery" -bool true
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.bluetooth" -bool true
-defaults write com.apple.systemuiserver "NSStatusItem Visible com.apple.menuextra.clock" -bool true
-
-defaults write com.apple.systemuiserver menuExtras -array \
-  "/System/Library/CoreServices/Menu Extras/User.menu",
-  "/System/Library/CoreServices/Menu Extras/Clock.menu",
-  "/System/Library/CoreServices/Menu Extras/Battery.menu",
-  "/System/Library/CoreServices/Menu Extras/AirPort.menu",
-  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
-
-# echo "Disable Notification Center and remove the menu bar icon"
-# launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
-
 echo "Setting keyboard layouts"
 defaults write NSGlobalDomain AppleLanguages -array "en-SE", "sv-SE"
 defaults write NSGlobalDomain AppleLocale -string "en_SE"
@@ -93,17 +79,11 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 echo "Increasing the window resize speed for Cocoa applications"
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
-echo "Expanding the save panel by default"
+echo "Expanding the save and print panels by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
-echo "Saving to disk (not to iCloud) by default"
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
-
-echo "Disable smart quotes and smart dashes as they're annoying when typing code"
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-
 
 ###############################################################################
 eh "Application handling"
@@ -147,15 +127,15 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRotate
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadScroll -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 2
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad USBMouseStopsTrackpad -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad UserPreferences -bool true
 # defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad version -int 5
 
-echo "Bluetooth mouse settings"
+# echo "Bluetooth mouse settings"
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonDivision -int 55
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonMode -string TwoButton
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseHorizontalScroll -bool true
@@ -177,14 +157,8 @@ defaults write -g com.apple.mouse.scaling 2.5
 eh "Finder"
 ###############################################################################
 
-# echo "Disable window animations and Get Info animations"
-# defaults write com.apple.finder DisableAllAnimations -bool true
-
 echo "Showing icons for hard drives, servers, and removable media on the desktop"
 defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-
-echo "Show the ~/Library folder"
-chflags nohidden ~/Library
 
 echo "Displaying full POSIX path as Finder window title"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
@@ -209,44 +183,38 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 eh "Dock & Mission Control"
 ###############################################################################
 
-#read -p "Do you want to remove all icons from the Dock? y/N" -n 1 REMOVE_DOCK_ICONS
-#if [ ! -z "$1" && $REMOVE_DOCK_ICONS =~ ^[Yy]$ ]
-#then
-#  echo "Removing all icons from the Dock"
-#  defaults write com.apple.dock persistent-apps -array
-#fi
-
 #Remove all icons from the Dock
-  echo "Removing all icons from the Dock"
-  defaults write com.apple.dock persistent-apps -array
+echo "Removing all icons from the Dock"
+defaults write com.apple.dock persistent-apps -array
 
 echo "Setting the icon size of Dock items and disabling magnification"
-defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock tilesize -int 60
 defaults write com.apple.dock magnification -bool false
-defaults write com.apple.dock largesize -int 36
+defaults write com.apple.dock largesize -int 60
 
-# echo "Speeding up Mission Control animations and grouping windows by application"
-# defaults write com.apple.dock expose-animation-duration -float 0.1
-# defaults write com.apple.dock "expose-group-by-app" -bool true
+# echo "Don't group windows by application in expose"
+defaults write com.apple.dock "expose-group-apps" -bool false
 
 echo "Setting Dock to auto-hide and removing the auto-hiding delay"
 defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0
 
+
+###############################################################################
+eh "Touch bar" # DISABLED NOW
+###############################################################################
 
 # Always display full control strip (ignoring App Controls)
-defaults write com.apple.touchbar.agent PresentationModeGlobal fullControlStrip
+# defaults write com.apple.touchbar.agent PresentationModeGlobal fullControlStrip
 
 # Customise content of touch bar
-defaults write com.apple.controlstrip FullCustomized -array "com.apple.system.group.brightness",
-  "com.apple.system.mission-control",
-  "com.apple.system.group.media",
-  "com.apple.system.group.volume",
-  NSTouchBarItemIdentifierFlexibleSpace,
-  "com.apple.system.input-menu",
-  NSTouchBarItemIdentifierFlexibleSpace,
-  "com.apple.system.screen-lock"
+# defaults write com.apple.controlstrip FullCustomized -array "com.apple.system.group.brightness",
+#   "com.apple.system.mission-control",
+#   "com.apple.system.group.media",
+#   "com.apple.system.group.volume",
+#   NSTouchBarItemIdentifierFlexibleSpace,
+#   "com.apple.system.input-menu",
+#   NSTouchBarItemIdentifierFlexibleSpace,
+#   "com.apple.system.screen-lock"
 
 ###############################################################################
 # "Kill affected applications"
@@ -265,6 +233,6 @@ echo ""
 find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
   "Dock" "Finder" "Mail" "Messages" "Safari" "SystemUIServer" \
-  "Terminal" "Transmission"; do
+  "Terminal"; do
   killall "${app}" > /dev/null 2>&1
 done
