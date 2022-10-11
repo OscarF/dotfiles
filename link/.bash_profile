@@ -16,3 +16,5 @@ src
 if [ -f .exports ]; then
   source .exports
 fi
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"

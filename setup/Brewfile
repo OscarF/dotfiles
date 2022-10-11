@@ -1,0 +1,25 @@
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+
+# brew "bash"
+# brew "bash-completion@2"
+
+# Install git
+brew "git"
+
+# Install utilities
+cask "rectangle"
+cask "shottr"
+
+# Install applications
+cask "google-chrome"
+cask "iina"
+cask "visual-studio-code"
+
+# Improve quicklook file support
+cask "qlcolorcode"
+cask "qlmarkdown"
+cask "qlstephen"
+cask "quicklook-json"
