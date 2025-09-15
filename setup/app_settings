@@ -1,0 +1,8 @@
+###############################################################################
+# DOTA 2
+###############################################################################
+
+# Add to enable customer shortcuts
+# defaults write com.apple.universalaccess com.apple.custommenu.apps -array-add "com.valvesoftware.dota2"
+# Rewrite quit shortcuts
+# defaults write com.valvesoftware.dota2 NSUserKeyEquivalents -dict Close "@~$\\U00e5" "Quit Dota 2" = "@$\\U00e5"

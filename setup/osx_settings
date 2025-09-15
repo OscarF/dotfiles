@@ -66,8 +66,10 @@ eh "General UI/UX"
 ###############################################################################
 
 echo "Setting keyboard layouts"
-defaults write NSGlobalDomain AppleLanguages -array "en-SE", "sv-SE"
+defaults write NSGlobalDomain AppleLanguages -array "en-US", "sv-SE"
 defaults write NSGlobalDomain AppleLocale -string "en_SE"
+# Number format. "." as decimal and " " as thoughts seperator
+defaults write NSGlobalDomain AppleICUNumberSymbols -dict 0 '.' 1 ' ' 10 '.' 17 ' '
 
 # Show language menu in the top right corner of the boot screen
 sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
@@ -148,7 +150,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.mouse UserPreferences -
 
 echo "Setting trackpad & mouse speed to a reasonable number"
 defaults write -g com.apple.trackpad.scaling 2
-defaults write -g com.apple.mouse.scaling 2.5
+defaults write -g com.apple.mouse.scaling -1
 
 # echo "Turn off keyboard illumination when computer is not used for 5 minutes"
 # defaults write com.apple.BezelServices kDimTime -int 300
@@ -236,3 +238,9 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
   "Terminal"; do
   killall "${app}" > /dev/null 2>&1
 done
+
+
+###############################################################################
+# Application specific settings
+###############################################################################
+# source app_settings
