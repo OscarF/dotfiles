@@ -1,0 +1,63 @@
+{
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.0",
+  "schemes" : [
+    {
+      "buttons" : {
+        "universalBackForward" : true
+      },
+      "pointer" : {
+        "acceleration" : 0.4,
+        "speed" : 0.0689655172413792768,
+        "disableAcceleration" : false
+      },
+      "if" : {
+        "device" : {
+          "productID" : "0xd03f",
+          "category" : "mouse",
+          "productName" : "Keychron M6 ",
+          "vendorID" : "0x3434"
+        }
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "speed" : {
+          "vertical" : 50
+        },
+        "modifiers" : {
+          "vertical" : {
+            "command" : {
+              "type" : "zoom"
+            }
+          }
+        }
+      }
+    },
+    {
+      "pointer" : {
+        "speed" : 0.0689655172413792768,
+        "acceleration" : 0.1,
+        "disableAcceleration" : false
+      },
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "vendorID" : "0x3434",
+          "productID" : "0xd03f",
+          "productName" : "Keychron M6",
+          "serialNumber" : "SN1234567890"
+        }
+      },
+      "scrolling" : {
+        "speed" : {
+          "horizontal" : 0,
+          "vertical" : 50
+        },
+        "acceleration" : {
+          "vertical" : 1
+        }
+      }
+    }
+  ]
+}

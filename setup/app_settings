@@ -1,3 +1,5 @@
+#!/bin/sh
+
 ###############################################################################
 # DOTA 2
 ###############################################################################
@@ -6,3 +8,9 @@
 # defaults write com.apple.universalaccess com.apple.custommenu.apps -array-add "com.valvesoftware.dota2"
 # Rewrite quit shortcuts
 # defaults write com.valvesoftware.dota2 NSUserKeyEquivalents -dict Close "@~$\\U00e5" "Quit Dota 2" = "@$\\U00e5"
+
+# Linear mouse settings
+cp linearmouse.json ~/.config/linearmouse/linearmouse.json
+
+# Rectangle mouse settings
+cp RectangleConfig.json ~/Library/Application Support/Rectangle/RectangleConfig.json
