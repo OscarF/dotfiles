@@ -10,7 +10,7 @@ function e_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
 # Install Homebrew.
 if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
-  true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 e_header "Updating Homebrew"
@@ -29,29 +29,11 @@ if [ ! -f $(brew --prefix)/bin/bash ]; then
 fi
 
 # Install Homebrew recipes.
-e_header "Installing Homebrew recipes"
-
-# Install useful stuff
-brew install git
+e_header "Installing apps nad utilities"
 
 # Install applications and utilies with homebrew
 brew bundle install --file=$HOME/.dotfiles/setup/Brewfile
 
-# # Install applications
-# brew install --cask visual-studio-code
-# brew install --cask google-chrome
-# brew install --cask iina
-
-# # Install utilities
-# brew install --cask rectangle
-# brew install --cask shottr
-
-# # Improve quicklook file support
-# brew install --cask \
-#     qlcolorcode \
-#     qlstephen \
-#     qlmarkdown \
-#     quicklook-json
 
 # Finally clean brewup
 brew cleanup

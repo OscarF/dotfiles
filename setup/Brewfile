@@ -2,9 +2,9 @@ tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/core"
 
-
-# brew "bash"
-# brew "bash-completion@2"
+# Install bash and bash completions
+brew "bash"
+brew "bash-completion@2"
 
 # Install git
 brew "git"
@@ -12,14 +12,16 @@ brew "git"
 # Install utilities
 cask "rectangle"
 cask "shottr"
+cask "linearmouse"
+# Go install AirpodsSanity from https://github.com/Gaulomatic/AirPodsSanity
+
+# Install libraries
+brew "molten-vk"
 
 # Install applications
-cask "google-chrome"
-cask "iina"
+# cask "google-chrome"
 cask "visual-studio-code"
 
-# Improve quicklook file support
-cask "qlcolorcode"
-cask "qlmarkdown"
-cask "qlstephen"
-cask "quicklook-json"
+# Other apps
+cask "discord"
+cask "steam"
