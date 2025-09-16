@@ -28,6 +28,7 @@ brew doctor
 brew update
 
 if [ ! -f $(brew --prefix)/bin/bash ]; then
+  e_header "Installing and setting up bash"
   # Bash 4
   brew install bash
   brew install bash-completion@2
