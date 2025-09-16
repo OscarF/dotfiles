@@ -29,7 +29,7 @@ if [ ! -f $(brew --prefix)/bin/bash ]; then
 fi
 
 # Install Homebrew recipes.
-e_header "Installing apps nad utilities"
+e_header "Installing apps and utilities"
 
 # Install applications and utilies with homebrew
 brew bundle install --file=$HOME/.dotfiles/setup/Brewfile
