@@ -10,7 +10,9 @@
 # defaults write com.valvesoftware.dota2 NSUserKeyEquivalents -dict Close "@~$\\U00e5" "Quit Dota 2" = "@$\\U00e5"
 
 # Linear mouse settings
-cp linearmouse.json ~/.config/linearmouse/linearmouse.json
+mkdir -p ~/.config/linearmouse
+cp setup/linearmouse.json ~/.config/linearmouse/
 
 # Rectangle mouse settings
-cp RectangleConfig.json ~/Library/Application Support/Rectangle/RectangleConfig.json
+mkdir -p ~/Library/Application\ Support/Rectangle
+cp setup/RectangleConfig.json ~/Library/Application\ Support/Rectangle/
