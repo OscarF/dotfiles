@@ -16,12 +16,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
   true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
 
-# Add homebrew to path
-echo >> /Users/$(whoami)/.zprofile
-echo 'eval "$(`which brew` shellenv)"' >>/Users/$(whoami)/.zprofile
-eval "$($(which brew) shellenv)"
+  # Add homebrew to path
+  echo >> /Users/$(whoami)/.zprofile
+  echo 'eval "$(`which brew` shellenv)"' >>/Users/$(whoami)/.zprofile
+  eval "$($(which brew) shellenv)"
+fi
 
 e_header "Updating Homebrew"
 brew doctor
