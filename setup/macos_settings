@@ -62,7 +62,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRotate
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadScroll -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 2
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
@@ -73,7 +73,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonDivisi
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonMode -string TwoButton
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseHorizontalScroll -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseMomentumScroll -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseOneFingerDoubleTapGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseOneFingerDoubleTapGesture -bool false
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseTwoFingerDoubleTapGesture -int 3
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseTwoFingerHorizSwipeGesture -int 2
 defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseVerticalScroll -bool true
@@ -97,27 +97,27 @@ defaults write com.apple.controlcenter "NSStatusItem Preferred Position NowPlayi
 defaults write com.apple.controlcenter "NSStatusItem Preferred Position ScreenMirroring" -int 186
 defaults write com.apple.controlcenter "NSStatusItem Preferred Position Sound" -int 411
 defaults write com.apple.controlcenter "NSStatusItem Preferred Position WiFi" -int 171
-defaults write com.apple.controlcenter "NSStatusItem Visible AudioVideoModule" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -int 1
-defaults write com.apple.controlcenter "NSStatusItem Visible BentoBox" -int 1
-defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -int 1
-defaults write com.apple.controlcenter "NSStatusItem Visible Display" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible FaceTime" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible FocusModes" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-0" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-1" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-2" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-3" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-4" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-5" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-6" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-7" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-8" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -int 1
-defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Shortcuts" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -int 0
-defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -int 0
+defaults write com.apple.controlcenter "NSStatusItem Visible AudioVideoModule" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible BentoBox" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible Display" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible FaceTime" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible FocusModes" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-0" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-1" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-2" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-3" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-4" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-5" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-6" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-7" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Item-8" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Shortcuts" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool false
 
 
 ###############################################################################
@@ -151,11 +151,11 @@ defaults write com.apple.dock largesize -int 45
 
 # # Don't group windows by application in expose"
 defaults write com.apple.dock "expose-group-apps" -bool false
-defaults write com.apple.dock "show-recents" -int 0
+defaults write com.apple.dock "show-recents" -bool false
 
 # Setting Dock to auto-hide and removing the auto-hiding delay"
 defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock "autohide-delay" -int 0
+defaults write com.apple.dock "autohide-delay" -bool false
 
 
 ###############################################################################
