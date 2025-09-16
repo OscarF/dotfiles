@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Logging stuff.
 function e_header()   { echo -e "\n\033[1m$@\033[0m"; }
@@ -18,6 +18,11 @@ if [[ ! "$(type -P brew)" ]]; then
   true | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# Add homebrew to path
+echo >> /Users/$(whoami)/.zprofile
+echo 'eval "$(`which brew` shellenv)"' >>/Users/$(whoami)/.zprofile
+eval "$($(which brew) shellenv)"
+
 e_header "Updating Homebrew"
 brew doctor
 brew update
@@ -32,6 +37,9 @@ if [ ! -f $(brew --prefix)/bin/bash ]; then
   echo $BASHPATH | sudo tee -a /etc/shells
   chsh -s $BASHPATH # will set for current user only.
 fi
+
+# Ensure shell completions
+brew completions link
 
 # Install Homebrew recipes.
 e_header "Installing apps and utilities"
