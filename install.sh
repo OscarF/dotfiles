@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -e
 
@@ -39,11 +39,6 @@ fi
 echo ""
 echo -e "${BLUE}🔗 Creating symlinks with GNU Stow...${NC}"
 
-# Remove old symlinks if they exist (from bash setup)
-[ -L "$HOME/.bash_profile" ] && rm "$HOME/.bash_profile"
-[ -L "$HOME/.gitconfig" ] && rm "$HOME/.gitconfig"
-[ -L "$HOME/.gitignore" ] && rm "$HOME/.gitignore"
-
 # Stow the packages
 stow -v -R -t ~ zsh
 stow -v -R -t ~ git
@@ -68,10 +63,7 @@ echo ""
 echo -e "${GREEN}✅ Dotfiles installed successfully!${NC}"
 echo ""
 echo "Next steps:"
-echo "  1. Run: ./setup/homebrew    (Install packages from Brewfile)"
-echo "  2. Run: ./setup/macos_settings  (Configure macOS settings)"
-echo "  3. Run: ./setup/app_settings    (Configure applications)"
-echo "  4. Restart your terminal or run: exec zsh"
+echo "  1. Run: ./setup/homebrew         (Install packages from Brewfile)"
+echo "  2. Run: ./setup/macos_settings   (Configure macOS settings)"
+echo "  3. Restart your terminal or run: exec zsh"
 echo ""
-echo "Note: Your old bash config is preserved in the 'link/', 'copy/', and 'source/' directories"
-echo "      if you need to reference anything."
