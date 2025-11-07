@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Note: This script is now optional - ./install.sh handles Homebrew + package installation
+# Use this script to update packages or as a standalone Homebrew setup
+
 # Logging stuff.
 function e_header()   { echo -e "\n\033[1m$@\033[0m"; }
 function e_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }

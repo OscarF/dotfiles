@@ -11,16 +11,20 @@ Automated configuration for shell, git, and system settings using GNU Stow for s
 git clone <your-repo-url> ~/.dotfiles
 cd ~/.dotfiles
 
-# 2. Install dotfiles (creates symlinks)
+# 2. Run automated setup (installs everything!)
 ./install.sh
 
-# 3. Install packages and applications
-./setup/homebrew
+# This single command installs:
+# - Homebrew (package manager)
+# - Oh My Zsh (framework)
+# - GNU Stow (symlink manager)
+# - All dotfiles (zsh, git, starship, apps)
+# - All packages from Brewfile (bat, eza, delta, fzf, etc.)
 
-# 4. Configure macOS system settings
+# 3. (Optional) Configure macOS system settings
 ./setup/macos_settings
 
-# 5. Restart your terminal or run
+# 4. Restart your terminal or run
 exec zsh
 ```
 

@@ -15,6 +15,23 @@ YELLOW='\033[1;33m'
 BLUE='\033[1;34m'
 NC='\033[0m' # No Color
 
+# Install Homebrew if not present
+if ! command -v brew &> /dev/null; then
+    echo ""
+    echo -e "${BLUE}📦 Installing Homebrew...${NC}"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add homebrew to PATH for current session
+    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -f "/usr/local/bin/brew" ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+    echo -e "${GREEN}✓ Homebrew installed${NC}"
+else
+    echo -e "${GREEN}✓ Homebrew already installed${NC}"
+fi
+
 # Install Oh My Zsh if not present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo ""
@@ -25,14 +42,14 @@ else
     echo -e "${GREEN}✓ Oh My Zsh already installed${NC}"
 fi
 
-# Check if stow is installed
+# Install GNU Stow if not present
 if ! command -v stow &> /dev/null; then
     echo ""
-    echo -e "${YELLOW}⚠️  GNU Stow not found. Please install it first:${NC}"
-    echo "   brew install stow"
-    echo ""
-    echo "Then run this script again."
-    exit 1
+    echo -e "${BLUE}📦 Installing GNU Stow...${NC}"
+    brew install stow
+    echo -e "${GREEN}✓ GNU Stow installed${NC}"
+else
+    echo -e "${GREEN}✓ GNU Stow already installed${NC}"
 fi
 
 # Stow packages
@@ -58,12 +75,27 @@ else
     echo -e "${GREEN}✓ ~/.zshrc.local already exists${NC}"
 fi
 
+# Install packages from Brewfile
+echo ""
+echo -e "${BLUE}📦 Installing packages from Brewfile...${NC}"
+echo -e "${BLUE}   This may take several minutes...${NC}"
+brew bundle install --file="$DOTFILES_DIR/Brewfile"
+echo -e "${GREEN}✓ All packages installed${NC}"
+
 # Summary
 echo ""
-echo -e "${GREEN}✅ Dotfiles installed successfully!${NC}"
+echo -e "${GREEN}✅ Complete automated setup finished!${NC}"
 echo ""
-echo "Next steps:"
-echo "  1. Run: ./setup/homebrew         (Install packages from Brewfile)"
-echo "  2. Run: ./setup/macos_settings   (Configure macOS settings)"
-echo "  3. Restart your terminal or run: exec zsh"
+echo "What was installed:"
+echo "  ✓ Homebrew package manager"
+echo "  ✓ Oh My Zsh framework"
+echo "  ✓ GNU Stow (symlink manager)"
+echo "  ✓ All dotfiles (zsh, git, starship, apps)"
+echo "  ✓ All packages from Brewfile (bat, eza, delta, fzf, starship, etc.)"
+echo ""
+echo "Optional next step:"
+echo "  • Run: ./setup/macos_settings   (Configure macOS system settings)"
+echo ""
+echo "To start using your new setup:"
+echo "  exec zsh"
 echo ""
