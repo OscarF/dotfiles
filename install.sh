@@ -26,6 +26,13 @@ else
     print -P "%F{green}✓ Homebrew already installed%f"
 fi
 
+# Update Homebrew and verify health
+echo ""
+print -P "%F{blue}🔍 Checking Homebrew health...%f"
+brew doctor
+brew update
+print -P "%F{green}✓ Homebrew updated%f"
+
 # Install Oh My Zsh if not present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo ""
@@ -75,6 +82,12 @@ print -P "%F{blue}📦 Installing packages from Brewfile...%f"
 print -P "%F{blue}   This may take several minutes...%f"
 brew bundle install --file="$DOTFILES_DIR/Brewfile"
 print -P "%F{green}✓ All packages installed%f"
+
+# Link shell completions and cleanup
+brew completions link
+print -P "%F{blue}🧹 Cleaning up...%f"
+brew cleanup
+print -P "%F{green}✓ Cleanup complete%f"
 
 # Summary
 echo ""

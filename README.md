@@ -14,12 +14,13 @@ cd ~/.dotfiles
 # 2. Run automated setup (installs everything!)
 ./install.sh
 
-# This single command installs:
-# - Homebrew (package manager)
-# - Oh My Zsh (framework)
+# This single command installs and configures:
+# - Homebrew (package manager + health check + updates)
+# - Oh My Zsh (zsh framework)
 # - GNU Stow (symlink manager)
 # - All dotfiles (zsh, git, starship, apps)
-# - All packages from Brewfile (bat, eza, delta, fzf, etc.)
+# - All packages from Brewfile (bat, eza, delta, fzf, starship, etc.)
+# - Shell completions + cleanup
 
 # 3. (Optional) Configure macOS system settings
 ./setup/macos_settings
