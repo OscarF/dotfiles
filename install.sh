@@ -7,7 +7,6 @@ echo "=========================================================="
 
 # Change to dotfiles directory
 cd "$(dirname "$0")"
-DOTFILES_DIR="$(pwd)"
 
 # Install Homebrew if not present
 if ! command -v brew &> /dev/null; then
@@ -69,7 +68,7 @@ print -P "%F{green}✓ Symlinks created%f"
 if [ ! -f "$HOME/.zshrc.local" ]; then
     echo ""
     print -P "%F{blue}📝 Creating ~/.zshrc.local from template...%f"
-    cp "$DOTFILES_DIR/zsh/.zshrc.local.example" "$HOME/.zshrc.local"
+    cp "zsh/.zshrc.local.example" "$HOME/.zshrc.local"
     print -P "%F{green}✓ ~/.zshrc.local created%f"
     print -P "%F{yellow}   Edit this file for machine-specific configuration%f"
 else
@@ -80,7 +79,7 @@ fi
 echo ""
 print -P "%F{blue}📦 Installing packages from Brewfile...%f"
 print -P "%F{blue}   This may take several minutes...%f"
-brew bundle install --file="$DOTFILES_DIR/Brewfile"
+brew bundle install --file="Brewfile"
 print -P "%F{green}✓ All packages installed%f"
 
 # Link shell completions and cleanup
