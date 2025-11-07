@@ -9,16 +9,10 @@ echo "=========================================================="
 cd "$(dirname "$0")"
 DOTFILES_DIR="$(pwd)"
 
-# Colors for output
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[1;34m'
-NC='\033[0m' # No Color
-
 # Install Homebrew if not present
 if ! command -v brew &> /dev/null; then
     echo ""
-    echo -e "${BLUE}📦 Installing Homebrew...${NC}"
+    print -P "%F{blue}📦 Installing Homebrew...%f"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Add homebrew to PATH for current session
@@ -27,34 +21,34 @@ if ! command -v brew &> /dev/null; then
     elif [[ -f "/usr/local/bin/brew" ]]; then
         eval "$(/usr/local/bin/brew shellenv)"
     fi
-    echo -e "${GREEN}✓ Homebrew installed${NC}"
+    print -P "%F{green}✓ Homebrew installed%f"
 else
-    echo -e "${GREEN}✓ Homebrew already installed${NC}"
+    print -P "%F{green}✓ Homebrew already installed%f"
 fi
 
 # Install Oh My Zsh if not present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo ""
-    echo -e "${BLUE}📦 Installing Oh My Zsh...${NC}"
+    print -P "%F{blue}📦 Installing Oh My Zsh...%f"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    echo -e "${GREEN}✓ Oh My Zsh installed${NC}"
+    print -P "%F{green}✓ Oh My Zsh installed%f"
 else
-    echo -e "${GREEN}✓ Oh My Zsh already installed${NC}"
+    print -P "%F{green}✓ Oh My Zsh already installed%f"
 fi
 
 # Install GNU Stow if not present
 if ! command -v stow &> /dev/null; then
     echo ""
-    echo -e "${BLUE}📦 Installing GNU Stow...${NC}"
+    print -P "%F{blue}📦 Installing GNU Stow...%f"
     brew install stow
-    echo -e "${GREEN}✓ GNU Stow installed${NC}"
+    print -P "%F{green}✓ GNU Stow installed%f"
 else
-    echo -e "${GREEN}✓ GNU Stow already installed${NC}"
+    print -P "%F{green}✓ GNU Stow already installed%f"
 fi
 
 # Stow packages
 echo ""
-echo -e "${BLUE}🔗 Creating symlinks with GNU Stow...${NC}"
+print -P "%F{blue}🔗 Creating symlinks with GNU Stow...%f"
 
 # Stow the packages
 stow -v -R -t ~ zsh
@@ -62,29 +56,29 @@ stow -v -R -t ~ git
 stow -v -R -t ~ starship
 stow -v -R -t ~ apps
 
-echo -e "${GREEN}✓ Symlinks created${NC}"
+print -P "%F{green}✓ Symlinks created%f"
 
 # Create .zshrc.local if it doesn't exist
 if [ ! -f "$HOME/.zshrc.local" ]; then
     echo ""
-    echo -e "${BLUE}📝 Creating ~/.zshrc.local from template...${NC}"
+    print -P "%F{blue}📝 Creating ~/.zshrc.local from template...%f"
     cp "$DOTFILES_DIR/zsh/.zshrc.local.example" "$HOME/.zshrc.local"
-    echo -e "${GREEN}✓ ~/.zshrc.local created${NC}"
-    echo -e "${YELLOW}   Edit this file for machine-specific configuration${NC}"
+    print -P "%F{green}✓ ~/.zshrc.local created%f"
+    print -P "%F{yellow}   Edit this file for machine-specific configuration%f"
 else
-    echo -e "${GREEN}✓ ~/.zshrc.local already exists${NC}"
+    print -P "%F{green}✓ ~/.zshrc.local already exists%f"
 fi
 
 # Install packages from Brewfile
 echo ""
-echo -e "${BLUE}📦 Installing packages from Brewfile...${NC}"
-echo -e "${BLUE}   This may take several minutes...${NC}"
+print -P "%F{blue}📦 Installing packages from Brewfile...%f"
+print -P "%F{blue}   This may take several minutes...%f"
 brew bundle install --file="$DOTFILES_DIR/Brewfile"
-echo -e "${GREEN}✓ All packages installed${NC}"
+print -P "%F{green}✓ All packages installed%f"
 
 # Summary
 echo ""
-echo -e "${GREEN}✅ Complete automated setup finished!${NC}"
+print -P "%F{green}✅ Complete automated setup finished!%f"
 echo ""
 echo "What was installed:"
 echo "  ✓ Homebrew package manager"
