@@ -90,6 +90,8 @@ function prompt_command() {
   prompt_getcolors
   # http://twitter.com/cowboy/status/150254030654939137
   PS1="\n"
+  # python env
+  PS1="$PS1${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV")) }"
   # git: [branch:flags]
   PS1="$PS1$(prompt_git)"
   # misc: [cmd#:hist#]
