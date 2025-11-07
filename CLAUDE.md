@@ -41,6 +41,7 @@ The repository uses GNU Stow for symlink management. Each top-level directory (e
 
 **apps/** - Application configuration package
 - `.config/linearmouse/linearmouse.json` - LinearMouse configuration
+- `Library/Application Support/Rectangle/RectangleConfig.json` - Rectangle window manager config
 
 **When you run `stow -t ~ zsh`:**
 - Creates `~/.zshrc` → `~/.dotfiles/zsh/.zshrc`
@@ -127,8 +128,9 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - Requires logout/restart for some settings
 
 **setup/app_settings** - Application config (zsh script)
-- Copies Rectangle config to ~/Library/Application Support/Rectangle/
-- Note: LinearMouse now managed by apps/ stow package
+- Optional script for additional app configurations
+- Note: LinearMouse and Rectangle are now managed by apps/ stow package
+- Currently only contains commented DOTA 2 configuration examples
 
 ## Important Constraints
 

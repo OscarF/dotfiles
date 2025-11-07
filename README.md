@@ -20,8 +20,8 @@ cd ~/.dotfiles
 # 4. Configure macOS system settings
 ./setup/macos_settings
 
-# 5. Configure application settings
-./setup/app_settings
+# 5. (Optional) Configure additional app settings if needed
+# ./setup/app_settings
 
 # 6. Restart your terminal or run
 exec zsh
@@ -72,12 +72,12 @@ exec zsh
 ├── starship/               # Starship prompt (stow package)
 │   └── .config/starship.toml
 ├── apps/                   # Application configs (stow package)
-│   └── .config/linearmouse/linearmouse.json
+│   ├── .config/linearmouse/linearmouse.json
+│   └── Library/Application Support/Rectangle/RectangleConfig.json
 ├── setup/                  # Setup scripts
 │   ├── homebrew           # Install packages
 │   ├── macos_settings     # Configure macOS
-│   ├── app_settings       # Configure apps (Rectangle)
-│   └── RectangleConfig.json
+│   └── app_settings       # Optional app-specific configs
 ├── Brewfile               # Package manifest
 ├── install.sh             # Main installer
 ├── README.md              # This file
