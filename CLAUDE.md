@@ -8,17 +8,24 @@ Modern macOS dotfiles repository using Zsh, Oh My Zsh, Starship prompt, and GNU 
 
 ## Installation Commands
 
-**Initial Setup (Run in order):**
+**Complete Automated Setup:**
 ```bash
-./install.sh              # Install dotfiles via GNU Stow
-./setup/homebrew          # Install Homebrew + packages from Brewfile
-./setup/macos_settings    # Configure macOS system settings
-./setup/app_settings      # Configure application-specific settings
+./install.sh              # One command installs EVERYTHING
+./setup/macos_settings    # (Optional) Configure macOS system settings
 ```
 
+**What install.sh does:**
+1. Installs Homebrew (with health check + update)
+2. Installs Oh My Zsh
+3. Installs GNU Stow
+4. Stows all packages (zsh, git, starship, apps)
+5. Creates ~/.zshrc.local from template
+6. Installs all Brewfile packages
+7. Links shell completions + cleanup
+
 **Re-installation:**
-- Run `./install.sh` to re-stow packages (safe to run multiple times)
-- Stow will update symlinks automatically
+- Run `./install.sh` again - it's idempotent and safe to run multiple times
+- Checks before installing (won't reinstall if already present)
 
 ## Architecture
 
@@ -113,11 +120,13 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - Dev tools: direnv, git, molten-vk
 - Apps: VS Code, Rectangle, Shottr, LinearMouse, Discord, Steam
 
-**setup/homebrew** - Package installer (zsh script)
-- Installs/updates Homebrew if missing
-- No longer installs bash or changes shell (zsh is macOS default)
-- Runs `brew bundle install` with Brewfile
-- Links completions via `brew completions link`
+**install.sh** - Complete automated installer (zsh script, 107 lines)
+- Single command setup for everything
+- Uses zsh-native colors (`print -P` with prompt expansion)
+- Installs: Homebrew, Oh My Zsh, Stow, packages
+- Maintains: brew doctor, update, completions link, cleanup
+- Idempotent: safe to run multiple times
+- Relative paths (no DOTFILES_DIR variable needed)
 
 **setup/macos_settings** - System preferences (zsh script)
 - Keyboard: Fastest repeat rate (KeyRepeat=1)
@@ -153,7 +162,7 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 
 **Adding packages:**
 1. Add to `Brewfile` (e.g., `brew "package-name"` or `cask "app-name"`)
-2. Run `./setup/homebrew` to install
+2. Run `brew bundle install` or re-run `./install.sh`
 3. Configure in appropriate stow package
 
 **Adding new stow package:**
