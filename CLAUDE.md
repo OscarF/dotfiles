@@ -127,11 +127,6 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - Control Center: Menu bar item visibility
 - Requires logout/restart for some settings
 
-**setup/app_settings** - Application config (zsh script)
-- Optional script for additional app configurations
-- Note: LinearMouse and Rectangle are now managed by apps/ stow package
-- Currently only contains commented DOTA 2 configuration examples
-
 ## Important Constraints
 
 **Platform**: macOS only (Apple Silicon primarily)
