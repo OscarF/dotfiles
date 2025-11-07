@@ -39,6 +39,9 @@ The repository uses GNU Stow for symlink management. Each top-level directory (e
 **starship/** - Starship prompt package
 - `.config/starship.toml` - Prompt configuration matching old bash prompt style
 
+**apps/** - Application configuration package
+- `.config/linearmouse/linearmouse.json` - LinearMouse configuration
+
 **When you run `stow -t ~ zsh`:**
 - Creates `~/.zshrc` → `~/.dotfiles/zsh/.zshrc`
 - Creates `~/.zshenv` → `~/.dotfiles/zsh/.zshenv`
@@ -109,19 +112,23 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - Dev tools: direnv, git, molten-vk
 - Apps: VS Code, Rectangle, Shottr, LinearMouse, Discord, Steam
 
-**setup/homebrew** - Package installer
+**setup/homebrew** - Package installer (zsh script)
 - Installs/updates Homebrew if missing
 - No longer installs bash or changes shell (zsh is macOS default)
 - Runs `brew bundle install` with Brewfile
 - Links completions via `brew completions link`
 
-**setup/macos_settings** - System preferences
+**setup/macos_settings** - System preferences (zsh script)
 - Keyboard: Fastest repeat rate (KeyRepeat=1)
 - Trackpad: Gestures, momentum scroll, tap-to-click
 - Dock: Auto-hide, no recents, minimal icons
 - Finder: Show extensions, POSIX paths
 - Control Center: Menu bar item visibility
 - Requires logout/restart for some settings
+
+**setup/app_settings** - Application config (zsh script)
+- Copies Rectangle config to ~/Library/Application Support/Rectangle/
+- Note: LinearMouse now managed by apps/ stow package
 
 ## Important Constraints
 

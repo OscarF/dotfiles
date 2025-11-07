@@ -48,6 +48,7 @@ echo -e "${BLUE}🔗 Creating symlinks with GNU Stow...${NC}"
 stow -v -R -t ~ zsh
 stow -v -R -t ~ git
 stow -v -R -t ~ starship
+stow -v -R -t ~ apps
 
 echo -e "${GREEN}✓ Symlinks created${NC}"
 

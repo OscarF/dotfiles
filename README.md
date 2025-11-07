@@ -71,10 +71,13 @@ exec zsh
 │   └── .git_commit_template
 ├── starship/               # Starship prompt (stow package)
 │   └── .config/starship.toml
+├── apps/                   # Application configs (stow package)
+│   └── .config/linearmouse/linearmouse.json
 ├── setup/                  # Setup scripts
 │   ├── homebrew           # Install packages
 │   ├── macos_settings     # Configure macOS
-│   └── app_settings       # Configure apps
+│   ├── app_settings       # Configure apps (Rectangle)
+│   └── RectangleConfig.json
 ├── Brewfile               # Package manifest
 ├── install.sh             # Main installer
 ├── README.md              # This file
