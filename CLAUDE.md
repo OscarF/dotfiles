@@ -4,147 +4,222 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a macOS dotfiles repository based on the cowboy/dotfiles framework. It automates shell configuration, system setup, and application installation for a consistent development environment.
+Modern macOS dotfiles repository using Zsh, Oh My Zsh, Starship prompt, and GNU Stow for symlink management. Includes modern CLI tools (bat, eza, delta, fzf, ripgrep) and comprehensive macOS system configuration.
 
 ## Installation Commands
 
 **Initial Setup (Run in order):**
 ```bash
-./bin/dotfiles              # Copy/symlink dotfiles to home directory
-./setup/homebrew            # Install Homebrew, Bash 4, and packages from Brewfile
-./setup/macos_settings      # Configure macOS system settings
-./setup/app_settings        # Configure application-specific settings
+./install.sh              # Install dotfiles via GNU Stow
+./setup/homebrew          # Install Homebrew + packages from Brewfile
+./setup/macos_settings    # Configure macOS system settings
+./setup/app_settings      # Configure application-specific settings
 ```
 
-**Re-run Installation:**
-- `./bin/dotfiles` safely backs up existing files to `.dotfiles/backups/YYYY_MM_DD-HH_MM_SS/`
-- Press `X` within 5 seconds when prompted to skip file operations
+**Re-installation:**
+- Run `./install.sh` to re-stow packages (safe to run multiple times)
+- Stow will update symlinks automatically
 
 ## Architecture
 
-### File Organization Pattern
+### GNU Stow Package System
 
-The repository uses a convention-based system where directory names determine behavior:
+The repository uses GNU Stow for symlink management. Each top-level directory (except `setup/`) is a "stow package":
 
-**copy/** - Files copied to `~/` (e.g., `.gitconfig`, `.gitignore`)
-- Uses `cmp` to detect if source and destination differ
-- Backs up existing files before copying
+**zsh/** - Zsh configuration package
+- `.zshrc` - Main configuration (ported from bash source/*.sh files)
+- `.zshenv` - Environment variables (LC_ALL, LANG, Homebrew, EDITOR)
+- `.zshrc.local.example` - Template for machine-specific config
 
-**link/** - Files symlinked to `~/` (e.g., `.bash_profile`)
-- Creates relative symlinks using `ln -sf`
-- Backs up existing files before linking
+**git/** - Git configuration package
+- `.gitconfig` - Git settings, aliases, delta configuration
+- `.gitignore` - Global gitignore patterns
+- `.git_commit_template` - Structured commit message template
 
-**source/** - Shell configuration loaded by `.bash_profile`
-- Files loaded alphabetically (use numeric prefixes to control order)
-- Naming convention: `[priority]_[name].sh`
-  - `10_*` = Core utilities and functions
-  - `20_*` = Package managers and completions
-  - `30_*` = User-facing features (aliases, prompt, git)
+**starship/** - Starship prompt package
+- `.config/starship.toml` - Prompt configuration matching old bash prompt style
 
-**setup/** - System and application setup scripts
-- Executed manually, not automatically loaded
-- Contains platform-specific configuration
+**When you run `stow -t ~ zsh`:**
+- Creates `~/.zshrc` → `~/.dotfiles/zsh/.zshrc`
+- Creates `~/.zshenv` → `~/.dotfiles/zsh/.zshenv`
+- Stow automatically handles nested directories (e.g., `.config/`)
 
-**bin/** - Executable utilities added to PATH
+### Zsh Configuration Loading Order
 
-### Source File Loading
+1. `~/.zshenv` - Loaded first (environment variables, Homebrew setup)
+2. `~/.zshrc` - Main config (Oh My Zsh, aliases, functions, plugins)
+3. `~/.zshrc.local` - Machine-specific (sourced at end of .zshrc, not in git)
 
-`.bash_profile` loads all files from `source/` via the `src()` function:
-```bash
-for file in ~/.dotfiles/source/*; do
-  source "$file"
-done
-```
+### Zsh Configuration Structure (zsh/.zshrc)
 
-Files are sourced in alphabetical order, so numeric prefixes control dependencies.
+The .zshrc is organized into sections:
 
-### Installation Script Architecture (bin/dotfiles)
+1. **Oh My Zsh Configuration** - Framework initialization with plugins (git, fzf, direnv)
+2. **Zsh Options** - History settings (ported from source/30_history.sh)
+3. **Completions** - Zsh completion system + Homebrew completions
+4. **Keybindings** - History search (ported from source/10_misc.sh)
+5. **Functions** - Custom functions like `cdf()` (ported from source/10_functions.sh)
+6. **Aliases** - Navigation, file operations, git (ported from source/30_aliases.sh + 30_gitaliases.sh)
+7. **External Plugins** - zsh-autosuggestions, zsh-syntax-highlighting, fzf
+8. **Prompt** - Starship initialization
+9. **Local Configuration** - Source ~/.zshrc.local if exists
 
-The installation uses a pattern-based dispatch system:
+### Installation Script Architecture (install.sh)
 
-1. **Convention Functions**: For each directory (`copy`, `link`), the script calls:
-   - `{action}_header()` - Display section header
-   - `{action}_test()` - Check if operation needed (returns skip reason)
-   - `{action}_do()` - Perform the operation
+Simple script that:
+1. Installs Oh My Zsh if not present
+2. Checks for stow availability
+3. Removes old bash symlinks
+4. Runs `stow -R` for each package (zsh, git, starship)
+5. Creates `~/.zshrc.local` from template if needed
 
-2. **do_stuff()**: Generic handler that iterates files and calls convention functions
-
-3. **Backup System**: Before overwriting, files are moved to timestamped backup directories
+Much simpler than old bin/dotfiles (no backup system, convention functions, or copy/link logic).
 
 ## Key Configuration Files
 
-**copy/.gitconfig** - Git configuration
-- Editor: VS Code with `-w` (wait) flag
+**zsh/.zshrc** - Main shell configuration
+- Oh My Zsh plugins: git, fzf, direnv
+- History: 10,000 entries, shared across sessions, ignore duplicates/spaces
+- Modern tool aliases: `cat`→bat, `ls`→eza (with fallbacks)
+- All original bash aliases preserved: `..`, `...`, `-`, `ll`, `la`, `gl`, `gs`, `gd`, etc.
+- Functions: `cdf()` (cd to Finder), `gc()` (git checkout with default)
+
+**zsh/.zshenv** - Environment setup
+- Language: LC_ALL=en_US.UTF-8
+- Editor: code -w (VS Code with wait flag)
+- Homebrew: Evaluated early via `brew shellenv`
+
+**starship/.config/starship.toml** - Prompt configuration
+- Format: `[time] (python) [git] [user@host:path]\n[status] $`
+- Shows: timestamp, Python virtualenv, git branch/status, exit codes
+- Replaces 110 lines of custom bash prompt code
+- Uses cyan color scheme matching original prompt
+
+**git/.gitconfig** - Git configuration
+- Pager: git-delta (side-by-side, line numbers, syntax highlighting)
 - Pull strategy: `--ff-only` (safe, no merge commits)
-- Autocorrect: 7ms delay before executing typo corrections
-- Custom aliases: `lg` (graphical log), `sum` (summary log), `wdiff` (word diff)
+- Autocorrect: 7ms delay
+- Original aliases: lg, sum, wdiff, staged, etc.
+- Modern aliases: recent, undo, amend, fixup, main, sync, clean-branches
+- Commit template: Enforces type prefixes (feat/fix/docs/etc.)
 
-**link/.bash_profile** - Shell entry point
-- Sources `.exports` for machine-specific config (not in repo)
-- Initializes Homebrew environment via `eval "$(/opt/homebrew/bin/brew shellenv)"`
+**Brewfile** - Package manifest
+- Core: stow, starship, zsh plugins (autosuggestions, syntax-highlighting, completions)
+- Modern CLI: bat, eza, ripgrep, fd, fzf, git-delta
+- Dev tools: direnv, git, molten-vk
+- Apps: VS Code, Rectangle, Shottr, LinearMouse, Discord, Steam
 
-**source/30_prompt.sh** - Advanced Bash prompt
-- Uses `PROMPT_COMMAND` to rebuild PS1 on each command
-- Displays: Python virtualenv, git branch/status, user@host:path, timestamp, exit code
-- Color-codes by context (SSH=green, root=magenta, normal=cyan)
-- Uses `trap ... DEBUG` to track command execution
-
-**source/30_history.sh** - History configuration
-- 10,000 entry history with ISO timestamps
-- `HISTCONTROL=ignorespace:erasedups` removes duplicates
-- `shopt -s histappend` preserves history across sessions
-
-**setup/homebrew** - Package installation
+**setup/homebrew** - Package installer
 - Installs/updates Homebrew if missing
-- Installs Bash 4 and bash-completion@2
-- Changes default shell to Homebrew-installed Bash
-- Runs `brew bundle install` with setup/Brewfile
+- No longer installs bash or changes shell (zsh is macOS default)
+- Runs `brew bundle install` with Brewfile
+- Links completions via `brew completions link`
 
 **setup/macos_settings** - System preferences
-- Sets fastest keyboard repeat rate (KeyRepeat=1)
-- Configures trackpad gestures and mouse sensitivity
-- Customizes Dock (auto-hide, no recents, removes all icons)
-- Sets Finder to show POSIX paths and file extensions
-- Requires logout/restart for some settings to take effect
+- Keyboard: Fastest repeat rate (KeyRepeat=1)
+- Trackpad: Gestures, momentum scroll, tap-to-click
+- Dock: Auto-hide, no recents, minimal icons
+- Finder: Show extensions, POSIX paths
+- Control Center: Menu bar item visibility
+- Requires logout/restart for some settings
 
 ## Important Constraints
 
-**Platform**: macOS only
-- Hardcoded paths assume Apple Silicon (`/opt/homebrew`)
-- Uses macOS-specific commands (`defaults`, `osascript`, `chsh`)
+**Platform**: macOS only (Apple Silicon primarily)
+- Hardcoded path: `/opt/homebrew/bin/brew` (Apple Silicon)
+- Uses macOS-specific commands: `defaults`, `osascript`, `brew`
 
-**Shell**: Bash 4+ required
-- Uses bash-specific features: `PROMPT_COMMAND`, `BASH_COMMAND`, `shopt`
-- Arrays, `[[ ]]` conditionals, process substitution
-- NOT compatible with sh or zsh without modification
+**Shell**: Zsh 5.8+ (macOS default since Catalina)
+- Uses zsh-specific features: `setopt`, `autoload`, `zstyle`
+- Oh My Zsh framework required
+- NOT compatible with bash without changes
 
 **Machine-Specific Config**:
-- `.bash_profile` sources `~/.exports` (not in repo) for private/local settings
-- Use this file for API keys, local paths, etc.
+- `~/.zshrc.local` for private/local settings (not in git)
+- Template available: `zsh/.zshrc.local.example`
+- Use for: API keys, work-specific paths, experimental features
 
-## Modifying Shell Configuration
+## Modifying Configuration
 
-When adding new shell features:
+**Adding shell features:**
+1. Edit `zsh/.zshrc` directly (it's version controlled)
+2. For machine-specific: Add to `~/.zshrc.local`
+3. Run `exec zsh` to reload
+4. Commit changes to git
 
-1. Create file in `source/` with appropriate prefix:
-   - `10_*` for core functions/utilities needed by other files
-   - `20_*` for third-party integrations (completions, tools)
-   - `30_*` for user-facing aliases/functions/prompts
+**Adding packages:**
+1. Add to `Brewfile` (e.g., `brew "package-name"` or `cask "app-name"`)
+2. Run `./setup/homebrew` to install
+3. Configure in appropriate stow package
 
-2. Use the `src()` function to reload: `src` or `src 30_aliases` (reload single file)
+**Adding new stow package:**
+1. Create directory: `mkdir newpackage`
+2. Add files with home directory structure: `newpackage/.config/app/config.toml`
+3. Add to `install.sh`: `stow -v -R -t ~ newpackage`
 
-3. Convention functions in `bin/dotfiles`:
-   - Test functions should `echo` a skip reason or return silently
-   - Do functions should call `e_success` for user feedback
+## Modern CLI Tool Aliases
+
+**bat** (cat replacement):
+- `cat file` - Syntax highlighted, plain style
+- `cath file` - With header/line numbers
+- Fallback to original cat if not installed
+
+**eza** (ls replacement):
+- `ls` - Icons, group directories first
+- `ll` - Long format with icons
+- `la` - Show hidden files
+- `lal` - Long format + hidden
+- `lsd` - Only directories
+- Fallback to standard ls if not installed
+
+**fzf** (fuzzy finder):
+- `Ctrl+R` - Fuzzy history search
+- `Ctrl+T` - Fuzzy file finder
+- Integrated via Oh My Zsh plugin
+
+**git-delta**:
+- Automatically used for git diff/log
+- Side-by-side view, line numbers
+- Configured in git/.gitconfig
 
 ## Git Workflow
 
-Custom git aliases defined in copy/.gitconfig and source/30_gitaliases.sh:
-- `gl` = git log with custom formatting
+**Original aliases (preserved):**
+- `gl` = git lg --all (graphical log)
 - `gs` = git status
 - `gd` = git diff
-- `gpr` = git pull with rebase
-- `gp` = git push
-- `gpu` = git push -u origin HEAD
-- `gru` = git remote update
-- `gco` = git checkout
+- `gpr` = git pull --rebase
+- `gpu` = git push origin master
+- `gco` = git checkout (defaults to master if no arg)
+
+**Modern aliases (added):**
+- `git recent` = Show recently checked out branches
+- `git undo` = Undo last commit, keep changes
+- `git amend` = Amend without editing message
+- `git fixup <sha>` = Create fixup commit
+- `git main` = Detect and return main/master branch name
+- `git sync` = Fetch + rebase on main/master
+- `git clean-branches` = Delete merged branches
+
+**Commit template:**
+- Opens in VS Code when you run `git commit`
+- Enforces structure: `<type>: <subject>`
+- Types: feat, fix, refactor, docs, test, chore, perf, style
+
+## Migration Notes (from Bash)
+
+**What was removed:**
+- `link/`, `copy/`, `source/`, `bin/` directories (replaced by stow packages)
+- Custom 110-line bash prompt (replaced by Starship)
+- `path_remove()` function (no longer needed)
+- Manual bind commands (Oh My Zsh handles it)
+
+**What was preserved:**
+- All aliases and functions (ported to .zshrc)
+- Git configuration (enhanced with delta)
+- macOS system settings (unchanged)
+- Homebrew Brewfile pattern (modernized packages)
+
+**Bash config still available:**
+- Old files preserved in `link/`, `copy/`, `source/` for reference
+- Can rollback: `git checkout master` + run old `./bin/dotfiles`

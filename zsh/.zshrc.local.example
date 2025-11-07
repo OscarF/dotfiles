@@ -1,0 +1,32 @@
+# ~/.zshrc.local.example
+# Template for machine-specific zsh configuration
+#
+# Copy this file to ~/.zshrc.local and customize for your machine
+# This file is sourced at the end of .zshrc and is NOT tracked in git
+#
+# Use this for:
+# - Machine-specific paths
+# - API keys and tokens
+# - Work-specific configurations
+# - Experimental aliases/functions
+# - Any settings you don't want in version control
+
+# Example: Custom PATH additions
+# export PATH="$HOME/custom/bin:$PATH"
+
+# Example: API keys (NEVER commit these to git)
+# export OPENAI_API_KEY="your-key-here"
+# export GITHUB_TOKEN="your-token-here"
+
+# Example: Work-specific aliases
+# alias work-vpn="sudo openconnect your-vpn-server"
+# alias work-ssh="ssh user@work-server"
+
+# Example: Custom functions
+# myfunction() {
+#   echo "Custom function"
+# }
+
+# Example: Environment-specific settings
+# export NODE_ENV="development"
+# export DATABASE_URL="postgres://localhost/mydb"

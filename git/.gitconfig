@@ -1,0 +1,101 @@
+[core]
+	editor = code -w
+	whitespace = trailing-space,space-before-tab
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = Dracula
+	plus-style = syntax "#003800"
+	minus-style = syntax "#3f0001"
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
+	renames = copies # Detect copies as well as renames
+
+[alias]
+	# Existing aliases
+	co = checkout
+	st = status
+	ci = commit
+	staged = diff --cached
+	both = diff HEAD
+	oneline = log --pretty=oneline
+	b = branch -a
+	unstage = reset HEAD
+	sum = log --pretty=format:"%h %Cblue%ai%Creset %Cgreen%an%Creset %s"
+	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(blue)% h%Creset% gd'
+	wdiff = diff -w --color-words
+	wstaged = diff --staged -w --color-words
+	w = wtf
+	shallow-clone = clone --depth=1
+
+	# Modern aliases
+	recent = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative))%(color:reset)'
+	undo = reset --soft HEAD^
+	amend = commit --amend --no-edit
+	fixup = commit --fixup
+	main = !git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo 'master'
+	sync = !git fetch origin && git rebase origin/$(git main)
+	clean-branches = !git branch --merged | grep -v '\\*\\|master\\|main' | xargs -n 1 git branch -d
+
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+
+[color "branch"]
+	current = white cyan bold
+	local = cyan
+	remote = yellow
+
+[color "diff"]
+	commit = yellow bold
+	plain = normal
+	meta = yellow
+	frag = magenta
+	old = red bold
+	new = green bold
+	whitespace = black red
+
+[color "status"]
+	header = normal
+	updated = green
+	changed = red
+	untracked = magenta bold
+
+[log]
+	date = iso
+
+[status]
+	submodulesummary = true
+
+[push]
+	default = tracking
+
+[pull]
+	ff = only
+
+[apply]
+	whitespace = fix
+
+[help]
+	format = man
+	autocorrect = 7
+
+[commit]
+	template = ~/.git_commit_template

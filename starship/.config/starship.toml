@@ -1,0 +1,112 @@
+# Starship Prompt Configuration
+# Matches the style of the previous custom bash prompt
+# Shows: timestamp, python env, git status, user@host:path, exit code
+
+# Format structure (replaces 110 lines of bash prompt code)
+format = """
+[\\[](bold white)\
+$time\
+[\\]](bold white)\
+$python\
+$git_branch\
+$git_status\
+[\\[](bold white)\
+$username\
+[@](bold white)\
+$hostname\
+[:](bold white)\
+$directory\
+[\\]](bold white)\
+$line_break\
+$status\
+$character\
+"""
+
+# Timestamp - [HH:MM:SS] format
+[time]
+disabled = false
+format = '[$time](cyan)'
+time_format = "%H:%M:%S"
+
+# Username - always shown
+[username]
+format = "[$user](cyan)"
+show_always = true
+
+# Hostname - always shown (changes color for SSH in bash, but we keep cyan)
+[hostname]
+format = "[$hostname](cyan)"
+ssh_only = false
+
+# Directory path
+[directory]
+format = "[$path](cyan)"
+truncation_length = 8
+truncate_to_repo = false
+
+# Git branch - [branch] format
+[git_branch]
+format = "[\\[](bold white)[$symbol$branch](cyan)[\\]](bold white)"
+symbol = ""
+
+# Git status - [flags] format showing +!? like bash prompt
+[git_status]
+format = "([\\[](bold white)[$all_status$ahead_behind](cyan)[\\]](bold white))"
+conflicted = "!"
+ahead = "↑"
+behind = "↓"
+diverged = "⇅"
+untracked = "?"
+stashed = "\$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+# Python virtualenv - (venv) format
+[python]
+format = "([\\(](bold white)[$virtualenv](cyan)[\\)](bold white) )"
+symbol = ""
+pyenv_version_name = false
+detect_extensions = []
+detect_files = []
+detect_folders = []
+
+# Exit status - shown only on error (like bash prompt)
+[status]
+disabled = false
+format = "[ $status](red)"
+
+# Command prompt character - $ for normal, red $ on error
+[character]
+success_symbol = "[$](bold white)"
+error_symbol = "[$](bold red)"
+
+# Line break before prompt character
+[line_break]
+disabled = false
+
+# Disable modules not in original bash prompt
+[package]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[cmd_duration]
+disabled = true

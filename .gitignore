@@ -1,5 +1,8 @@
 caches/
 backups/
-*LOCAL*
-
 *.lock.json
+
+# Machine-specific local configs (but keep the example templates)
+.zshrc.local
+!.zshrc.local.example
+.exports

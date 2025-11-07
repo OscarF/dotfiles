@@ -27,17 +27,8 @@ e_header "Updating Homebrew"
 brew doctor
 brew update
 
-if [ ! -f $(brew --prefix)/bin/bash ]; then
-  e_header "Installing and setting up bash"
-  # Bash 4
-  brew install bash
-  brew install bash-completion@2
-
-  # Set new shell, Bash 4
-  BASHPATH=$(brew --prefix)/bin/bash
-  echo $BASHPATH | sudo tee -a /etc/shells
-  chsh -s $BASHPATH # will set for current user only.
-fi
+# Note: macOS uses zsh by default since Catalina
+# No need to install bash or change shell
 
 # Ensure shell completions
 brew completions link
@@ -46,7 +37,7 @@ brew completions link
 e_header "Installing apps and utilities"
 
 # Install applications and utilies with homebrew
-brew bundle install --file=$HOME/.dotfiles/setup/Brewfile
+brew bundle install --file=$HOME/.dotfiles/Brewfile
 
 
 # Finally clean brewup
