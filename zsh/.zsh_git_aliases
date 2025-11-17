@@ -1,0 +1,22 @@
+# ~/.zsh_git_aliases
+# Git-specific aliases and functions
+# Sourced by ~/.zshrc
+#
+# Note: Most git aliases are provided by Oh My Zsh git plugin:
+#   gst   = git status
+#   gd    = git diff
+#   gco   = git checkout
+#   gru   = git remote update
+#   (and 100+ more: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
+#
+# These are custom additions that aren't in OMZ or use custom gitconfig aliases:
+
+# ==============================================================================
+# Custom Git Aliases
+# ==============================================================================
+
+# Uses custom 'git lg' alias defined in ~/.gitconfig (graphical log)
+alias gl="git lg --all"
+
+# Push current branch to origin (shorter than OMZ's 'ggpush')
+alias gpu='git push origin $(git symbolic-ref --short HEAD)'

@@ -1,5 +1,4 @@
 # ~/.zshrc - Modern Zsh Configuration
-# Ported from bash dotfiles and modernized
 
 # ==============================================================================
 # Oh My Zsh Configuration
@@ -25,7 +24,7 @@ source $ZSH/oh-my-zsh.sh
 # Zsh Options
 # ==============================================================================
 
-# History configuration (ported from source/30_history.sh)
+# History configuration
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -60,17 +59,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
 # ==============================================================================
-# Keybindings (ported from source/10_misc.sh)
-# ==============================================================================
-
-# Use text that has already been typed as prefix for searching history
-bindkey '^[[A' history-beginning-search-backward  # Up arrow
-bindkey '^[[B' history-beginning-search-forward   # Down arrow
-bindkey '^[[5~' history-beginning-search-backward # Page up
-bindkey '^[[6~' history-beginning-search-forward  # Page down
-
-# ==============================================================================
-# Functions (ported from source/10_functions.sh)
+# Convenience Functions
 # ==============================================================================
 
 # cd into whatever is the forefront Finder window
@@ -105,31 +94,6 @@ else
   alias lsd='ls -l | grep "^d"'
 fi
 
-# Modern tool aliases
-if type bat &>/dev/null; then
-  alias cat='bat --style=plain --paging=never'
-  alias cath='bat --style=header --paging=never'  # With header
-fi
-
-# Utility aliases
-alias bar='echo "================================================================================"'
-alias cask='brew cask'
-
-# Git aliases (from source/30_gitaliases.sh)
-alias gl="git lg --all"
-alias gs="git status"
-alias gd="git diff"
-alias gpr="git pull --rebase"
-alias gp="git pull --rebase"
-alias gpu="git push origin master"
-alias gru="git remote update"
-
-# Git checkout function with default to master
-function gc() {
-  git checkout "${@:-master}"
-}
-alias gco='gc'
-
 # ==============================================================================
 # External Plugins
 # ==============================================================================
@@ -137,11 +101,6 @@ alias gco='gc'
 # zsh-autosuggestions
 if [[ -f $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-# zsh-syntax-highlighting (must be loaded last)
-if [[ -f $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # fzf keybindings (Ctrl+R for history, Ctrl+T for files)
@@ -157,6 +116,11 @@ if type fzf &>/dev/null; then
   fi
 fi
 
+# zsh-syntax-highlighting (must be loaded last)
+if [[ -f $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # ==============================================================================
 # Prompt (Starship)
 # ==============================================================================
@@ -164,6 +128,15 @@ fi
 # Initialize Starship prompt (replaces 110 line custom bash prompt)
 if type starship &>/dev/null; then
   eval "$(starship init zsh)"
+fi
+
+# ==============================================================================
+# Git Aliases
+# ==============================================================================
+
+# Source git-specific aliases and functions
+if [[ -f "$HOME/.zsh_git_aliases" ]]; then
+  source "$HOME/.zsh_git_aliases"
 fi
 
 # ==============================================================================

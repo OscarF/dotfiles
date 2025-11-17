@@ -11,21 +11,33 @@ Modern macOS dotfiles repository using Zsh, Oh My Zsh, Starship prompt, and GNU 
 **Complete Automated Setup:**
 ```bash
 ./install.sh              # One command installs EVERYTHING
+./test.sh                 # (Optional) Validate installation
 ./setup/macos_settings    # (Optional) Configure macOS system settings
 ```
 
 **What install.sh does:**
-1. Installs Homebrew (with health check + update)
-2. Installs Oh My Zsh
-3. Installs GNU Stow
-4. Stows all packages (zsh, git, starship, apps)
-5. Creates ~/.zshrc.local from template
-6. Installs all Brewfile packages
-7. Links shell completions + cleanup
+1. Validates prerequisites (Brewfile exists)
+2. Installs Homebrew (with health check + update)
+3. Installs Oh My Zsh
+4. Installs GNU Stow
+5. Stows all packages (zsh, git, starship, apps) with validation
+6. Creates ~/.zshrc.local from template
+7. Installs all Brewfile packages
+8. Links shell completions + cleanup
+9. Runs test.sh validation suite automatically
+
+**What test.sh does:**
+- Validates all expected symlinks exist (~/.zshrc, ~/.gitconfig, etc.)
+- Checks required tools are installed (brew, stow, starship, git, delta)
+- Verifies configuration files load without errors
+- Tests Oh My Zsh and plugins are available
+- Checks modern CLI tools (eza, bat, fzf, ripgrep)
+- Returns exit code 0 on success, 1 on failure
 
 **Re-installation:**
 - Run `./install.sh` again - it's idempotent and safe to run multiple times
 - Checks before installing (won't reinstall if already present)
+- Validates installation with test suite at the end
 
 ## Architecture
 
@@ -34,8 +46,9 @@ Modern macOS dotfiles repository using Zsh, Oh My Zsh, Starship prompt, and GNU 
 The repository uses GNU Stow for symlink management. Each top-level directory (except `setup/`) is a "stow package":
 
 **zsh/** - Zsh configuration package
-- `.zshrc` - Main configuration (ported from bash source/*.sh files)
-- `.zshenv` - Environment variables (LC_ALL, LANG, Homebrew, EDITOR)
+- `.zshrc` - Main configuration
+- `.zshenv` - Environment variables (Homebrew path for Apple Silicon, EDITOR)
+- `.zsh_git_aliases` - Git-specific aliases and functions (sourced by .zshrc)
 - `.zshrc.local.example` - Template for machine-specific config
 
 **git/** - Git configuration package
@@ -59,20 +72,21 @@ The repository uses GNU Stow for symlink management. Each top-level directory (e
 
 1. `~/.zshenv` - Loaded first (environment variables, Homebrew setup)
 2. `~/.zshrc` - Main config (Oh My Zsh, aliases, functions, plugins)
-3. `~/.zshrc.local` - Machine-specific (sourced at end of .zshrc, not in git)
+3. `~/.zsh_git_aliases` - Git aliases and functions (sourced by .zshrc)
+4. `~/.zshrc.local` - Machine-specific (sourced at end of .zshrc, not in git)
 
 ### Zsh Configuration Structure (zsh/.zshrc)
 
 The .zshrc is organized into sections:
 
 1. **Oh My Zsh Configuration** - Framework initialization with plugins (git, fzf, direnv)
-2. **Zsh Options** - History settings (ported from source/30_history.sh)
+2. **Zsh Options** - History settings (10k entries, share history, ignore duplicates)
 3. **Completions** - Zsh completion system + Homebrew completions
-4. **Keybindings** - History search (ported from source/10_misc.sh)
-5. **Functions** - Custom functions like `cdf()` (ported from source/10_functions.sh)
-6. **Aliases** - Navigation, file operations, git (ported from source/30_aliases.sh + 30_gitaliases.sh)
-7. **External Plugins** - zsh-autosuggestions, zsh-syntax-highlighting, fzf
-8. **Prompt** - Starship initialization
+4. **Functions** - Custom functions like `cdf()` (cd to Finder window)
+5. **Aliases** - Navigation (`.., ...`) and ls/eza aliases
+6. **External Plugins** - zsh-autosuggestions, zsh-syntax-highlighting, fzf
+7. **Prompt** - Starship initialization
+8. **Git Aliases** - Source ~/.zsh_git_aliases (custom git shortcuts)
 9. **Local Configuration** - Source ~/.zshrc.local if exists
 
 ### Installation Script Architecture (install.sh)
@@ -89,16 +103,21 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 ## Key Configuration Files
 
 **zsh/.zshrc** - Main shell configuration
-- Oh My Zsh plugins: git, fzf, direnv
+- Oh My Zsh plugins: git (provides 100+ aliases like `gst`, `gd`, `gco`), fzf, direnv
 - History: 10,000 entries, shared across sessions, ignore duplicates/spaces
-- Modern tool aliases: `cat`→bat, `ls`→eza (with fallbacks)
-- All original bash aliases preserved: `..`, `...`, `-`, `ll`, `la`, `gl`, `gs`, `gd`, etc.
-- Functions: `cdf()` (cd to Finder), `gc()` (git checkout with default)
+- Modern tool aliases: `ls`→eza (with fallback to standard ls)
+- Navigation aliases: `..`, `...`, `-`, `ll`, `la`, `lal`, `lsd`
+- Functions: `cdf()` (cd to Finder window)
+- Sources: ~/.zsh_git_aliases and ~/.zshrc.local
+
+**zsh/.zsh_git_aliases** - Custom git shortcuts
+- `gl` - Uses custom `git lg` from .gitconfig (graphical log)
+- `gpu` - Push current branch to origin
+- Note: Most git aliases come from Oh My Zsh git plugin
 
 **zsh/.zshenv** - Environment setup
-- Language: LC_ALL=en_US.UTF-8
 - Editor: code -w (VS Code with wait flag)
-- Homebrew: Evaluated early via `brew shellenv`
+- Homebrew: Hardcoded `/opt/homebrew/bin/brew` (Apple Silicon only)
 
 **starship/.config/starship.toml** - Prompt configuration
 - Format: `[time] (python) [git] [user@host:path]\n[status] $`
@@ -120,13 +139,13 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - Dev tools: direnv, git, molten-vk
 - Apps: VS Code, Rectangle, Shottr, LinearMouse, Discord, Steam
 
-**install.sh** - Complete automated installer (zsh script, 107 lines)
+**install.sh** - Complete automated installer (zsh script, 237 lines)
 - Single command setup for everything
 - Uses zsh-native colors (`print -P` with prompt expansion)
 - Installs: Homebrew, Oh My Zsh, Stow, packages
 - Maintains: brew doctor, update, completions link, cleanup
 - Idempotent: safe to run multiple times
-- Relative paths (no DOTFILES_DIR variable needed)
+- Sets DOTFILES_DIR variable for safety (resolves to absolute path)
 
 **setup/macos_settings** - System preferences (zsh script)
 - Keyboard: Fastest repeat rate (KeyRepeat=1)
@@ -138,9 +157,10 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 
 ## Important Constraints
 
-**Platform**: macOS only (Apple Silicon primarily)
-- Hardcoded path: `/opt/homebrew/bin/brew` (Apple Silicon)
+**Platform**: macOS on Apple Silicon only (M1/M2/M3/M4)
+- Hardcoded Homebrew path: `/opt/homebrew/bin/brew` (Apple Silicon)
 - Uses macOS-specific commands: `defaults`, `osascript`, `brew`
+- Will NOT work on Intel Macs without modification
 
 **Shell**: Zsh 5.8+ (macOS default since Catalina)
 - Uses zsh-specific features: `setopt`, `autoload`, `zstyle`
@@ -151,6 +171,26 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 - `~/.zshrc.local` for private/local settings (not in git)
 - Template available: `zsh/.zshrc.local.example`
 - Use for: API keys, work-specific paths, experimental features
+
+## Quality & Testing
+
+**Test Suite (test.sh):**
+- Validates symlinks, tools, and configuration loading
+- Run manually: `./test.sh`
+- Auto-runs at end of `install.sh`
+- Exit code 0 = success, 1 = failure
+
+**Pre-commit Hook:**
+- Automatically runs shellcheck on staged shell scripts
+- Located: `.git/hooks/pre-commit`
+- Checks: `*.sh`, `*.zsh`, `*.bash`, and `setup/*` files
+- Skip with: `git commit --no-verify`
+- Install shellcheck: `brew install shellcheck`
+
+**Code Quality:**
+- All shell scripts follow shellcheck recommendations
+- Pre-commit hook prevents committing scripts with issues
+- test.sh validates installation integrity
 
 ## Modifying Configuration
 
@@ -164,18 +204,15 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 1. Add to `Brewfile` (e.g., `brew "package-name"` or `cask "app-name"`)
 2. Run `brew bundle install` or re-run `./install.sh`
 3. Configure in appropriate stow package
+4. Run `./test.sh` to validate
 
 **Adding new stow package:**
 1. Create directory: `mkdir newpackage`
 2. Add files with home directory structure: `newpackage/.config/app/config.toml`
 3. Add to `install.sh`: `stow -v -R -t ~ newpackage`
+4. Update `test.sh` to validate new symlinks
 
 ## Modern CLI Tool Aliases
-
-**bat** (cat replacement):
-- `cat file` - Syntax highlighted, plain style
-- `cath file` - With header/line numbers
-- Fallback to original cat if not installed
 
 **eza** (ls replacement):
 - `ls` - Icons, group directories first
@@ -197,15 +234,20 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 
 ## Git Workflow
 
-**Original aliases (preserved):**
-- `gl` = git lg --all (graphical log)
-- `gs` = git status
+**Oh My Zsh git plugin provides 100+ aliases including:**
+- `gst` = git status
 - `gd` = git diff
-- `gpr` = git pull --rebase
-- `gpu` = git push origin master
-- `gco` = git checkout (defaults to master if no arg)
+- `gco` = git checkout
+- `gp` = git push
+- `gl` = git pull
+- `gru` = git remote update
+- Full list: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
 
-**Modern aliases (added):**
+**Custom aliases (in ~/.zsh_git_aliases):**
+- `gl` = git lg --all (overrides OMZ, uses custom graphical log from .gitconfig)
+- `gpu` = git push origin current-branch (shorter than OMZ's ggpush)
+
+**Git config aliases (in ~/.gitconfig):**
 - `git recent` = Show recently checked out branches
 - `git undo` = Undo last commit, keep changes
 - `git amend` = Amend without editing message
@@ -224,15 +266,20 @@ Much simpler than old bin/dotfiles (no backup system, convention functions, or c
 **What was removed:**
 - `link/`, `copy/`, `source/`, `bin/` directories (replaced by stow packages)
 - Custom 110-line bash prompt (replaced by Starship)
-- `path_remove()` function (no longer needed)
-- Manual bind commands (Oh My Zsh handles it)
+- Custom git aliases (replaced by Oh My Zsh git plugin)
+- History prefix-search keybindings (standard arrow keys + Ctrl+R fzf)
+- cat→bat override (use `bat` command directly)
+- Deprecated `brew cask` alias
+- Utility aliases (`bar`)
 
 **What was preserved:**
-- All aliases and functions (ported to .zshrc)
-- Git configuration (enhanced with delta)
+- Navigation aliases (`.., ...`) and functions (`cdf`)
+- ls→eza aliases (with fallback)
+- History configuration (10k entries, shared, no duplicates)
+- Git configuration in .gitconfig (enhanced with delta)
 - macOS system settings (unchanged)
 - Homebrew Brewfile pattern (modernized packages)
 
-**Bash config still available:**
-- Old files preserved in `link/`, `copy/`, `source/` for reference
-- Can rollback: `git checkout master` + run old `./bin/dotfiles`
+**Rollback to bash:**
+- Old bash configuration is available in git history (pre-migration commits)
+- Use `git log --all --oneline | grep -i bash` to find historical commits

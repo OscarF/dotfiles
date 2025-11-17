@@ -1,6 +1,6 @@
 # Modern Dotfiles
 
-**Modern macOS development environment with Zsh, Oh My Zsh, Starship, and modern CLI tools**
+**Modern macOS development environment for Apple Silicon with Zsh, Oh My Zsh, Starship, and modern CLI tools**
 
 Automated configuration for shell, git, and system settings using GNU Stow for symlink management.
 
@@ -77,10 +77,10 @@ exec zsh
 │   ├── .config/linearmouse/linearmouse.json
 │   └── Library/Application Support/Rectangle/RectangleConfig.json
 ├── setup/                  # Setup scripts
-│   ├── homebrew           # Install packages
-│   └── macos_settings     # Configure macOS
+│   └── macos_settings     # Configure macOS system settings
 ├── Brewfile               # Package manifest
-├── install.sh             # Main installer
+├── install.sh             # Main automated installer
+├── test.sh                # Validation test suite
 ├── README.md              # This file
 └── CLAUDE.md              # AI assistant documentation
 ```
@@ -112,20 +112,18 @@ This file is sourced at the end of `.zshrc` and is NOT tracked in git.
 
 ### Files
 - `ls`, `ll`, `la`, `lal` - Modern ls with eza (colors, icons, git status)
-- `cat` - Syntax-highlighted with bat
 - `lsd` - List only directories
+- Use `bat` for syntax-highlighted file viewing
 
 ### Git
-- `gl` - Pretty log with graph
-- `gs` - Git status
-- `gd` - Git diff
-- `gco` - Git checkout
-- `gpr` - Git pull with rebase
-- `gpu` - Git push to origin master
+Oh My Zsh provides 100+ git aliases (gst, gd, gco, gp, etc.). Custom additions:
+- `gl` - Pretty log with graph (uses custom git lg)
+- `gpu` - Git push current branch to origin
 - `git recent` - Show recently used branches
 - `git undo` - Undo last commit (keep changes)
 - `git amend` - Amend last commit without editing
 - `git sync` - Fetch and rebase on main/master
+- `git clean-branches` - Delete merged branches
 
 ## Updating
 
@@ -139,29 +137,38 @@ git pull
 
 ```bash
 cd ~/.dotfiles
-stow -D zsh git starship
+stow -D zsh git starship apps
 rm ~/.zshrc.local
+# Optionally restore previous shell: chsh -s /bin/zsh
 ```
-
-## Migration from Bash
-
-If you're migrating from the old bash setup:
-- Old configs preserved in `link/`, `copy/`, `source/` directories
-- `.bash_profile` replaced by `.zshrc`
-- Custom 110-line prompt replaced by Starship (~50 lines)
-- All aliases and functions ported to zsh
-- `.exports` pattern replaced by `.zshrc.local`
 
 ## Requirements
 
-- macOS (tested on Apple Silicon)
-- Homebrew
+- **macOS on Apple Silicon** (M1/M2/M3/M4 Macs)
+- Homebrew (automatically installed by install.sh at `/opt/homebrew`)
 - Git
 
-## Credits
+**Note:** This setup is specifically configured for Apple Silicon Macs and will not work on Intel Macs without modification.
 
-Originally based on [cowboy/dotfiles](https://github.com/cowboy/dotfiles), modernized with:
-- Zsh + Oh My Zsh
-- GNU Stow for symlink management
-- Starship prompt
-- Modern CLI tools (bat, eza, delta, fzf, ripgrep)
+## Testing & Validation
+
+```bash
+# Run validation tests to verify installation
+./test.sh
+```
+
+The test suite validates:
+- All symlinks are correctly created
+- Required tools are installed (brew, stow, starship, git, delta)
+- Configuration files have valid syntax
+- Zsh plugins are available
+- Modern CLI tools are working
+
+## Features
+
+- **Apple Silicon optimized**: Configured specifically for M-series Macs
+- **Idempotent**: Safe to run `install.sh` multiple times
+- **Automated**: Single command installs and configures everything
+- **Tested**: Comprehensive test suite validates installation
+- **Documented**: Extensive CLAUDE.md for AI assistants and maintainers
+- **Modern**: Uses current best practices and maintained tools

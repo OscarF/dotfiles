@@ -8,7 +8,15 @@ osascript -e 'tell application "System Preferences" to quit'
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until script has finished
+# Store background process PID for cleanup
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+SUDO_KEEPALIVE_PID=$!
+
+# Cleanup function to kill sudo keep-alive
+cleanup() {
+    kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
 
 
 ###############################################################################
@@ -163,7 +171,8 @@ defaults write com.apple.dock "autohide-delay" -bool false
 ###############################################################################
 # Application specific settings
 ###############################################################################
-# source app_settings
+
+# None right now
 
 
 # Note that some of these changes require a logout/restart to take effect."
@@ -175,10 +184,6 @@ for app in "Activity Monitor" "cfprefsd" \
   "Terminal"; do
   killall "${app}" > /dev/null 2>&1
 done
-
-
-
-
 
 
 
