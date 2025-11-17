@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-# Close any open System Preferences panes, to prevent them from overriding
+# Close any open System Settings panes, to prevent them from overriding
 # settings we’re about to change
-osascript -e 'tell application "System Preferences" to quit'
+osascript -e 'tell application "System Settings" to quit' || true
 
 # Ask for the administrator password upfront
 sudo -v
@@ -24,7 +24,7 @@ trap cleanup EXIT INT TERM
 ###############################################################################
 
 # Setting keyboard layouts
-defaults write NSGlobalDomain AppleLanguages -array "en-US", "sv-SE"
+defaults write NSGlobalDomain AppleLanguages -array "en-SE" "sv-SE"
 
 # Disable shadows on screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
@@ -140,9 +140,6 @@ defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 # # Show path bar in Finder"
 defaults write com.apple.finder ShowPathbar -bool true
 
-# Allowing text selection in Quick Look/Preview in Finder by default"
-defaults write com.apple.finder QLEnableTextSelection -bool true
-
 # Always show file extension, and disable the warning when changing a file extension"
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
@@ -150,9 +147,6 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 ###############################################################################
 # Dock & Mission Control
 ###############################################################################
-
-# Remove all icons from the Dock
-defaults write com.apple.dock persistent-apps -array
 
 # Setting the icon size of Dock items and disabling magnification"
 defaults write com.apple.dock tilesize -int 45
@@ -165,7 +159,7 @@ defaults write com.apple.dock "show-recents" -bool false
 
 # Setting Dock to auto-hide and removing the auto-hiding delay"
 defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock "autohide-delay" -bool false
+defaults write com.apple.dock autohide-delay -float 0
 
 
 ###############################################################################
@@ -180,10 +174,15 @@ defaults write com.apple.dock "autohide-delay" -bool false
 
 find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
 for app in "Activity Monitor" "cfprefsd" \
-  "Dock" "Finder" "SystemUIServer" \
-  "Terminal"; do
+  "Dock" "Finder" "SystemUIServer"; do
   killall "${app}" > /dev/null 2>&1
 done
 
 
+# Print end
+echo ""
+print -P "%F{green}✅ MacOS automated setup finished!%f"
+echo ""
+echo "Run defaults write com.apple.dock persistent-apps -array if you want to empty the dock"
+echo ""
 
