@@ -22,6 +22,16 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
     exit 1
 fi
 
+# Check for Apple Silicon
+ARCH="$(uname -m)"
+if [[ "$ARCH" != "arm64" ]]; then
+    print -P "%F{red}✗ Error: This setup requires Apple Silicon%f"
+    print -P "%F{red}  Detected architecture: $ARCH%f"
+    print -P "%F{yellow}  Intel Macs are not supported without modifications%f"
+    print -P "%F{yellow}  (Homebrew path is hardcoded to /opt/homebrew)%f"
+    exit 1
+fi
+
 # Keep track of errors to print
 PRE_CHECK_ERRORS=()
 
