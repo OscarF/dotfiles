@@ -44,6 +44,10 @@ if [ ! -f "zsh/.zshrc.local.example" ]; then
     PRE_CHECK_ERRORS+=("zsh/.zshrc.local.example not found")
 fi
 
+if [ ! -f "git/.gitconfig.local.example" ]; then
+    PRE_CHECK_ERRORS+=("git/.gitconfig.local.example not found")
+fi
+
 if [ ! -f "test.sh" ]; then
     PRE_CHECK_ERRORS+=("test.sh not found (validation will be skipped)")
 fi
@@ -158,6 +162,17 @@ else
     print -P "%F{green}✓ ~/.zshrc.local already exists%f"
 fi
 
+# Create .gitconfig.local if it doesn't exist
+if [ ! -f "$HOME/.gitconfig.local" ]; then
+    echo ""
+    print -P "%F{blue}📝 Creating ~/.gitconfig.local from template...%f"
+    cp "git/.gitconfig.local.example" "$HOME/.gitconfig.local"
+    print -P "%F{green}✓ ~/.gitconfig.local created%f"
+    print -P "%F{yellow}   Edit this file for git user identity and machine-specific settings%f"
+else
+    print -P "%F{green}✓ ~/.gitconfig.local already exists%f"
+fi
+
 # Install packages from Brewfile
 echo ""
 print -P "%F{blue}📦 Installing packages from Brewfile...%f"
@@ -229,7 +244,12 @@ echo "  ✓ GNU Stow (symlink manager)"
 echo "  ✓ All dotfiles (zsh, git, starship, apps)"
 echo "  ✓ All packages from Brewfile (bat, eza, delta, fzf, starship, etc.)"
 echo ""
+echo "Configuration files created:"
+echo "  • ~/.zshrc.local      (Machine-specific shell settings)"
+echo "  • ~/.gitconfig.local  (Git user identity and private config)"
+echo ""
 echo "Optional next steps:"
+echo "  • Edit ~/.gitconfig.local       (Add your git user.name and user.email)"
 echo "  • Run: ./test.sh                (Validate installation)"
 echo "  • Run: ./setup/macos_settings   (Configure macOS system settings)"
 echo ""

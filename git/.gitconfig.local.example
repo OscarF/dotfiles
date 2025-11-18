@@ -1,0 +1,53 @@
+# ~/.gitconfig.local.example
+# Template for machine-specific git configuration
+#
+# Copy this file to ~/.gitconfig.local and customize for your machine
+# This file is included by .gitconfig and is NOT tracked in git
+#
+# Use this for:
+# - User identity (name, email, signing key)
+# - Conditional includes for work/personal projects
+# - GitHub tokens or other credentials
+# - Machine-specific git settings
+# - Any configuration you don't want in version control
+
+# Example: User identity
+# [user]
+#     name = Your Name
+#     email = your.email@example.com
+#     signingkey = YOUR_GPG_KEY_ID
+
+# Example: Conditional includes for work vs personal projects
+# [includeIf "gitdir:~/work/"]
+#     path = ~/.gitconfig-work
+# [includeIf "gitdir:~/personal/"]
+#     path = ~/.gitconfig-personal
+
+# Then create ~/.gitconfig-work:
+# [user]
+#     name = Your Work Name
+#     email = you@workcompany.com
+# [github]
+#     user = work-username
+
+# And ~/.gitconfig-personal:
+# [user]
+#     name = Your Personal Name
+#     email = you@personal.com
+# [github]
+#     user = personal-username
+
+# Example: GitHub configuration
+# [github]
+#     user = your-github-username
+#     token = ghp_your_token_here
+
+# Example: Machine-specific settings
+# [core]
+#     sshCommand = ssh -i ~/.ssh/specific_key
+
+# Example: Commit signing
+# [commit]
+#     gpgsign = true
+# [gpg]
+#     program = gpg
