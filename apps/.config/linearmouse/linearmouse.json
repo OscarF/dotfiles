@@ -1,61 +1,60 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.0",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
   "schemes" : [
     {
-      "buttons" : {
-        "universalBackForward" : true
-      },
-      "pointer" : {
-        "acceleration" : 0.4,
-        "speed" : 0.0689655172413792768,
-        "disableAcceleration" : false
-      },
       "if" : {
         "device" : {
-          "productID" : "0xd03f",
           "category" : "mouse",
-          "productName" : "Keychron M6 ",
+          "productID" : "0xd03f",
+          "productName" : "Keychron M6",
+          "serialNumber" : "SN1234567890",
           "vendorID" : "0x3434"
         }
       },
+      "pointer" : {
+        "acceleration" : 0.1,
+        "disableAcceleration" : false,
+        "speed" : 0.068
+      },
       "scrolling" : {
         "acceleration" : {
-          "vertical" : 1
+          "vertical" : 2
+        },
+        "distance" : {
+          "vertical" : "auto"
         },
         "speed" : {
-          "vertical" : 50
-        },
-        "modifiers" : {
-          "vertical" : {
-            "command" : {
-              "type" : "zoom"
-            }
-          }
+          "horizontal" : 0,
+          "vertical" : 8
         }
       }
     },
     {
-      "pointer" : {
-        "speed" : 0.0689655172413792768,
-        "acceleration" : 0.1,
-        "disableAcceleration" : false
-      },
       "if" : {
         "device" : {
           "category" : "mouse",
-          "vendorID" : "0x3434",
           "productID" : "0xd03f",
-          "productName" : "Keychron M6",
-          "serialNumber" : "SN1234567890"
+          "productName" : "Keychron M6 ",
+          "vendorID" : "0x3434"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.1
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "trackpad",
+          "productID" : "0x265",
+          "productName" : "Magic Trackpad 2",
+          "serialNumber" : "A0:78:17:E3:00:9B",
+          "vendorID" : "0x4c"
         }
       },
       "scrolling" : {
         "speed" : {
-          "horizontal" : 0,
-          "vertical" : 50
-        },
-        "acceleration" : {
-          "vertical" : 1
+          "vertical" : 0
         }
       }
     }
