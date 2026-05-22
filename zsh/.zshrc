@@ -67,6 +67,32 @@ cdf() {
   cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
+
+pull-all-git-repositories-in-directory() {
+  local parent="${1:-.}"
+  local dirs=()
+
+  for dir in "$parent"/*/; do
+    [ -d "$dir/.git" ] || continue
+    dirs+=("$dir")
+  done
+
+  print "Pulling ${#dirs[@]} repos:"
+  printf '  %s\n' "${dirs[@]}"
+  print ""
+
+  (
+    for dir in "${dirs[@]}"; do
+      (
+        result=$(git -C "$dir" pull --ff-only 2>&1)
+        print "✓ ${dir%/} — $result"
+      ) &
+    done
+    wait
+    )
+  }
+
+
 # ==============================================================================
 # Aliases
 # ==============================================================================
