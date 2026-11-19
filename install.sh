@@ -48,8 +48,9 @@ if [ ! -f "git/.gitconfig.local.example" ]; then
     PRE_CHECK_ERRORS+=("git/.gitconfig.local.example not found")
 fi
 
+# Not fatal: the install still works, only the final validation is skipped
 if [ ! -f "test.sh" ]; then
-    PRE_CHECK_ERRORS+=("test.sh not found (validation will be skipped)")
+    print -P "%F{yellow}⚠ test.sh not found (validation will be skipped)%f"
 fi
 
 # Check required directories (stow packages)
