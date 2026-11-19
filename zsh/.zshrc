@@ -80,7 +80,7 @@ pull-all-git-repositories-in-directory() {
 # Aliases
 # ==============================================================================
 
-# Navigation aliases (from source/30_aliases.sh)
+# Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias -- -='cd -'
@@ -126,7 +126,6 @@ fi
 # Prompt (Starship)
 # ==============================================================================
 
-# Initialize Starship prompt (replaces 110 line custom bash prompt)
 if type starship &>/dev/null; then
   eval "$(starship init zsh)"
 fi
@@ -135,8 +134,7 @@ fi
 # Local Configuration
 # ==============================================================================
 
-# Source local configuration file for machine-specific settings
-# (replaces the .exports pattern from bash setup)
+# Machine-specific settings, not in the repo
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi

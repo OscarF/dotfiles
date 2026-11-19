@@ -14,13 +14,13 @@ defaults write NSGlobalDomain AppleLanguages -array "en-SE" "sv-SE"
 # Disable shadows on screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
 
-# Increasing the window resize speed for Cocoa applications"
+# Faster window resize animation
 defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
 
-# Expanding the save and print panels by default"
+# Expand the save and print panels by default
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
@@ -30,10 +30,10 @@ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 defaults write com.apple.dock "mru-spaces" -bool "false"
 
 ###############################################################################
-# Trackpad, mouse, keyboard, and input"
+# Trackpad, mouse, keyboard, and input
 ###############################################################################
 
-# Setting a blazingly fast keyboard repeat rate (ain't nobody got time for special chars while coding!)"
+# Fast key repeat, short delay before it starts
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
@@ -109,13 +109,13 @@ defaults write com.apple.menuextra.clock ShowDayOfWeek -bool false
 # Finder
 ###############################################################################
 
-# Displaying full POSIX path as Finder window title"
+# Full path as the Finder window title
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-# # Show path bar in Finder"
+# Show the path bar
 defaults write com.apple.finder ShowPathbar -bool true
 
-# Always show file extension, and disable the warning when changing a file extension"
+# No warning when changing a file extension
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 
@@ -123,15 +123,15 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Dock & Mission Control
 ###############################################################################
 
-# Setting the icon size of Dock items and disabling magnification"
+# Dock icon size, no magnification
 defaults write com.apple.dock tilesize -int 45
 defaults write com.apple.dock magnification -bool false
 
-# # Don't group windows by application in expose"
+# Don't group windows by app in Mission Control; no recent apps in the Dock
 defaults write com.apple.dock "expose-group-apps" -bool false
 defaults write com.apple.dock "show-recents" -bool false
 
-# Setting Dock to auto-hide and removing the auto-hiding delay"
+# Auto-hide the Dock with no delay
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 

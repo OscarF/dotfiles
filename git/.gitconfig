@@ -35,13 +35,11 @@
 	autoSquash = true # Apply fixup!/squash! commits (see `git fixup`) on rebase -i
 
 [alias]
-	# Existing aliases
 	co = checkout
 	staged = diff --cached
 	unstage = reset HEAD
 	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(blue)% h%Creset% gd'
 
-	# Modern aliases
 	recent = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative))%(color:reset)'
 	undo = reset --soft HEAD^
 	amend = commit --amend --no-edit
