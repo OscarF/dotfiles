@@ -22,6 +22,7 @@ macOS on Apple Silicon only: `/opt/homebrew` is hardcoded on purpose.
 
 ## Checks
 - `./test.sh` validates links, tools and config. `install.sh` is safe to run again; it backs up conflicting files to `~/.dotfiles-backup/`.
+- `install.sh` is defensive on purpose: keep its prerequisite checks, validations and helpful error messages when simplifying it.
 - Pre-commit (`hooks/`, enabled via `core.hooksPath`): `zsh -n` for zsh files, shellcheck for sh/bash only. Most scripts here are zsh despite the `.sh` extension, and shellcheck doesn't support zsh.
 
 ## Commits
