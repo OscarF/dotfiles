@@ -85,22 +85,14 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias -- -='cd -'
 
-# ls aliases - Using eza with fallback to ls
-if type eza &>/dev/null; then
+# ls with eza (installed by the Brewfile); plain ls if it's missing
+if (( $+commands[eza] )); then
   alias ls='eza --icons --group-directories-first'
   alias ll='eza -l --icons --group-directories-first'
   alias la='eza -a --icons --group-directories-first'
   alias lal='eza -la --icons --group-directories-first'
   alias l='eza --icons'
   alias lsd='eza -lD --icons'  # List only directories
-else
-  # Fallback to standard ls if eza not installed
-  alias ls='ls -hFG'
-  alias ll='ls -l'
-  alias la='ls -A'
-  alias lal='ls -Al'
-  alias l='ls -CF'
-  alias lsd='ls -l | grep "^d"'
 fi
 
 # Git: Oh My Zsh's git plugin has most aliases (gst, gd, gco …). This replaces its gl (git pull).
