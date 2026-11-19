@@ -95,10 +95,9 @@ else
     print -P "%F{green}✓ Homebrew already installed%f"
 fi
 
-# Update Homebrew and verify health
+# Update Homebrew
 echo ""
-print -P "%F{blue}🔍 Checking Homebrew health...%f"
-brew doctor || true  # Show warnings but don't exit on them
+print -P "%F{blue}🔄 Updating Homebrew...%f"
 brew update
 print -P "%F{green}✓ Homebrew updated%f"
 
