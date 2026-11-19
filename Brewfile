@@ -13,6 +13,7 @@ cask "font-jetbrains-mono-nerd-font" # Nerd Font for Starship symbols
 # Git and version control
 brew "git"
 brew "git-delta"               # Syntax-highlighted diffs
+brew "gh"                      # GitHub CLI
 
 # Modern CLI replacements
 brew "bat"                     # cat with syntax highlighting
@@ -36,3 +37,4 @@ cask "linearmouse"             # Mouse customization
 
 # Applications
 cask "visual-studio-code"      # Code editor
+cask "ghostty"                 # Terminal
