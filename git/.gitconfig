@@ -19,12 +19,22 @@
 	plus-style = syntax "#003800"
 	minus-style = syntax "#3f0001"
 
+[init]
+	defaultBranch = main
+
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3 # Like diff3, but trims lines common to both sides
 
 [diff]
 	colorMoved = default
 	renames = copies # Detect copies as well as renames
+
+[fetch]
+	prune = true # Remove remote-tracking branches deleted on the remote
+
+[rebase]
+	autoStash = true # Stash/unstash a dirty worktree around rebase (and `git sync`)
+	autoSquash = true # Apply fixup!/squash! commits (see `git fixup`) on rebase -i
 
 [alias]
 	# Existing aliases
@@ -88,7 +98,7 @@
 	submodulesummary = true
 
 [push]
-	default = tracking
+	autoSetupRemote = true # First `git push` on a new branch sets upstream (no -u needed)
 
 [pull]
 	ff = only
