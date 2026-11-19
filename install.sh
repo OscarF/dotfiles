@@ -108,9 +108,6 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     print -P "%F{blue}📦 Installing Oh My Zsh...%f"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     print -P "%F{green}✓ Oh My Zsh installed%f"
-
-    # Remove OMZ-created .zshrc so stow can create our custom symlink
-    rm -f "$HOME/.zshrc"
 else
     print -P "%F{green}✓ Oh My Zsh already installed%f"
 fi
@@ -129,9 +126,24 @@ fi
 echo ""
 print -P "%F{blue}🔗 Creating symlinks with GNU Stow...%f"
 
+# Move existing files that would block stow into a timestamped backup folder
+BACKUP_DIR="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+backup_conflicts() {
+    local pkg="$1" rel target
+    while IFS= read -r rel; do
+        target="$HOME/$rel"
+        [[ -e "$target" || -L "$target" ]] || continue
+        # Already resolves into this repo (our symlink, or a stow-linked parent folder)
+        [[ "${target:A}" == "$DOTFILES_DIR"/* ]] && continue
+        mkdir -p "$BACKUP_DIR/${rel:h}"
+        mv "$target" "$BACKUP_DIR/$rel"
+        print -P "%F{yellow}   Backed up ~/$rel → $BACKUP_DIR/$rel%f"
+    done < <(cd "$DOTFILES_DIR/$pkg" && find . \( -type f -o -type l \) | sed 's|^\./||')
+}
+
 # Stow each package with error checking
-# Using a loop to reduce repetition while maintaining clear error messages
 for pkg in zsh git starship apps; do
+    backup_conflicts "$pkg"
     if ! stow -v -R -t ~ "$pkg"; then
         print -P "%F{red}✗ Error: Failed to stow $pkg package%f"
         exit 1
