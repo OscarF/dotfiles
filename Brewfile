@@ -7,8 +7,7 @@ brew "zsh-syntax-highlighting" # Real-time syntax highlighting
 brew "zsh-completions"         # Additional completions
 
 # Fonts
-cask "font-jetbrains-mono" # Jetbrains font
-cask "font-jetbrains-mono-nerd-font" # Nerd Font for Starship symbols
+cask "font-jetbrains-mono-nerd-font" # Icons for the Starship prompt and eza
 
 # Git and version control
 brew "git"
