@@ -29,16 +29,10 @@ source $ZSH/oh-my-zsh.sh
 # Zsh Options
 # ==============================================================================
 
-# History configuration
+# History: Oh My Zsh (lib/history.zsh) sets size (50k in memory, 10k saved), timestamps,
+# shared history across sessions, ignore-space and verify. Only additions here:
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-
-setopt APPEND_HISTORY           # Append to history file (don't overwrite)
-setopt HIST_IGNORE_SPACE        # Don't record commands starting with space
-setopt HIST_IGNORE_ALL_DUPS     # Remove older duplicate entries from history
-setopt HIST_VERIFY              # Show command with history expansion before running
-setopt SHARE_HISTORY            # Share history between all sessions
+setopt HIST_IGNORE_ALL_DUPS     # Re-running a command removes its older copy
 
 # Completion options
 setopt AUTO_LIST                # Automatically list choices on ambiguous completion
