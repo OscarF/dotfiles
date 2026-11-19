@@ -21,16 +21,3 @@
 # export OPENAI_API_KEY="$(security find-generic-password -a "$USER" -s openai-api-key -w 2>/dev/null)"
 #
 # For GitHub, prefer `gh auth login` (stores the token in the Keychain) over GITHUB_TOKEN.
-
-# Example: Work-specific aliases
-# alias work-vpn="sudo openconnect your-vpn-server"
-# alias work-ssh="ssh user@work-server"
-
-# Example: Custom functions
-# myfunction() {
-#   echo "Custom function"
-# }
-
-# Example: Environment-specific settings
-# export NODE_ENV="development"
-# export DATABASE_URL="postgres://localhost/mydb"
