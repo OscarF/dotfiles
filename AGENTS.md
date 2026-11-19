@@ -23,3 +23,8 @@ macOS on Apple Silicon only: `/opt/homebrew` is hardcoded on purpose.
 ## Checks
 - `./test.sh` validates links, tools and config. `install.sh` is safe to run again; it backs up conflicting files to `~/.dotfiles-backup/`.
 - Pre-commit (`hooks/`, enabled via `core.hooksPath`): `zsh -n` for zsh files, shellcheck for sh/bash only. Most scripts here are zsh despite the `.sh` extension, and shellcheck doesn't support zsh.
+
+## Commits
+- One logical change per commit, revertable on its own; a change's tests and doc updates go in the same commit.
+- Subject: `area: Imperative summary`, at most 72 characters (aim for 50). Area is the part of the setup, e.g. zsh, git, macos, apps, install, brew; leave it out for repo-wide changes.
+- Body: why the change was needed and what's different for the user. Don't list files or describe the implementation; only mention a non-obvious decision whose reason isn't visible in the code.
