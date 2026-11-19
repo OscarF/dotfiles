@@ -40,6 +40,7 @@ links=(
     .zsh_git_aliases
     .gitconfig
     .config/starship.toml
+    .config/linearmouse/linearmouse.json
 )
 for link in "${links[@]}"; do
     print_test "~/$link exists and is a symlink"
