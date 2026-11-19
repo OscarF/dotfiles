@@ -126,7 +126,6 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Setting the icon size of Dock items and disabling magnification"
 defaults write com.apple.dock tilesize -int 45
 defaults write com.apple.dock magnification -bool false
-defaults write com.apple.dock largesize -int 45
 
 # # Don't group windows by application in expose"
 defaults write com.apple.dock "expose-group-apps" -bool false
@@ -143,16 +142,9 @@ defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
 defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false      # Tiled windows have margins
 
 
-###############################################################################
-# Application specific settings
-###############################################################################
-
-# None right now
-
-
 # Some of these changes require a logout/restart to take effect.
 # Restart affected apps so the rest take effect now.
-for app in "Activity Monitor" "cfprefsd" \
+for app in "cfprefsd" \
   "Dock" "Finder" "SystemUIServer" "ControlCenter"; do
   killall "${app}" > /dev/null 2>&1
 done
