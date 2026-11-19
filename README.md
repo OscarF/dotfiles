@@ -52,7 +52,6 @@ For GitHub, use `gh auth login`.
 | `ls`, `l`, `ll`, `la`, `lal`, `lsd` | eza listings: grouped, plain, long, hidden files, long + hidden, folders only |
 | `pull-all-git-repositories-in-directory [dir]` | Fast-forward pull every repo in a folder, in parallel |
 | `gl` | Graph log of all branches. This replaces Oh My Zsh's `gl` (git pull). |
-| `gpu` | Push the current branch to origin |
 | `git recent` | Recently used branches |
 | `git undo` | Undo the last commit, keeping its changes |
 | `git amend` | Amend the last commit without editing the message |

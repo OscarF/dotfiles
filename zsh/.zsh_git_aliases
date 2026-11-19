@@ -17,6 +17,3 @@
 
 # Uses custom 'git lg' alias defined in ~/.gitconfig (graphical log)
 alias gl="git lg --all"
-
-# Push current branch to origin (shorter than OMZ's 'ggpush')
-alias gpu='git push origin $(git symbolic-ref --short HEAD)'
