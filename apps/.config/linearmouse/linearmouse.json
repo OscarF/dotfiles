@@ -1,7 +1,12 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.11.2",
   "schemes" : [
     {
+      "buttons" : {
+        "mappings" : [
+
+        ]
+      },
       "if" : {
         "device" : {
           "category" : "mouse",
@@ -14,7 +19,7 @@
       "pointer" : {
         "acceleration" : 0.1,
         "disableAcceleration" : false,
-        "speed" : 0.068
+        "speed" : 0.065
       },
       "scrolling" : {
         "acceleration" : {
@@ -24,7 +29,7 @@
           "vertical" : "auto"
         },
         "speed" : {
-          "horizontal" : 0,
+          "horizontal" : 20,
           "vertical" : 8
         }
       }
@@ -53,9 +58,7 @@
         }
       },
       "scrolling" : {
-        "speed" : {
-          "vertical" : 0
-        }
+        "speed" : 0
       }
     }
   ]
