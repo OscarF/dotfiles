@@ -131,6 +131,13 @@ else
     fail "zsh-syntax-highlighting not found at $HIGHLIGHTING_PATH"
 fi
 
+print_test "Homebrew share dir is not group-writable (OMZ compaudit)"
+if [ -z "$(find "$(brew --prefix)/share" -maxdepth 0 -perm -g+w)" ]; then
+    pass
+else
+    fail "run: chmod go-w \"\$(brew --prefix)/share\""
+fi
+
 echo ""
 
 # ==============================================================================

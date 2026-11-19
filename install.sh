@@ -182,6 +182,8 @@ print -P "%F{green}✓ All packages installed%f"
 
 # Link shell completions and cleanup
 brew completions link
+# Oh My Zsh ignores completions in group-writable folders (per zsh-completions caveats)
+chmod go-w "$(brew --prefix)/share" "$(brew --prefix)/share/zsh" "$(brew --prefix)/share/zsh/site-functions"
 print -P "%F{blue}🧹 Cleaning up...%f"
 brew cleanup
 print -P "%F{green}✓ Cleanup complete%f"

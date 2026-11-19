@@ -17,6 +17,11 @@ plugins=(
   direnv       # Directory environment loader
 )
 
+# Completion paths must be on fpath before Oh My Zsh runs compinit (once, below).
+# HOMEBREW_PREFIX is set by `brew shellenv` in ~/.zprofile.
+typeset -U fpath  # Drop duplicate entries
+fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
+
 # Load Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 
@@ -43,14 +48,6 @@ setopt COMPLETE_IN_WORD         # Complete from both ends of a word
 # ==============================================================================
 # Completions
 # ==============================================================================
-
-# Initialize zsh completion system
-autoload -Uz compinit && compinit
-
-# Homebrew completions
-if type brew &>/dev/null; then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-fi
 
 # Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
