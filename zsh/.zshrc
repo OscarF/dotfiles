@@ -124,22 +124,11 @@ fi
 # External Plugins
 # ==============================================================================
 
+# fzf key bindings come from the Oh My Zsh fzf plugin
+
 # zsh-autosuggestions
 if [[ -f $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
   source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-# fzf keybindings (Ctrl+R for history, Ctrl+T for files)
-if type fzf &>/dev/null; then
-  # Set up fzf key bindings if available
-  if [[ -f $HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh ]]; then
-    source $HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh
-  fi
-
-  # Set up fzf completion if available
-  if [[ -f $HOMEBREW_PREFIX/opt/fzf/shell/completion.zsh ]]; then
-    source $HOMEBREW_PREFIX/opt/fzf/shell/completion.zsh
-  fi
 fi
 
 # zsh-syntax-highlighting (must be loaded last)
