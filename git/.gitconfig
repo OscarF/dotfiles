@@ -110,9 +110,6 @@
 	format = man
 	autocorrect = 7
 
-[commit]
-	template = ~/.git_commit_template
-
 # Include machine-specific configuration (not tracked in git)
 # Copy git/.gitconfig.local.example to ~/.gitconfig.local and customize
 [include]
