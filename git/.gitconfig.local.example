@@ -7,9 +7,11 @@
 # Use this for:
 # - User identity (name, email, signing key)
 # - Conditional includes for work/personal projects
-# - GitHub tokens or other credentials
 # - Machine-specific git settings
 # - Any configuration you don't want in version control
+#
+# Credentials don't belong here: Homebrew's git stores HTTPS credentials in the macOS
+# Keychain (credential.helper = osxkeychain), and `gh auth login` sets up GitHub.
 
 # Example: User identity
 # [user]
@@ -40,7 +42,6 @@
 # Example: GitHub configuration
 # [github]
 #     user = your-github-username
-#     token = ghp_your_token_here
 
 # Example: Machine-specific settings
 # [core]

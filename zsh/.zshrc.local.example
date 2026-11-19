@@ -14,9 +14,13 @@
 # Example: Custom PATH additions
 # export PATH="$HOME/custom/bin:$PATH"
 
-# Example: API keys (NEVER commit these to git)
-# export OPENAI_API_KEY="your-key-here"
-# export GITHUB_TOKEN="your-token-here"
+# Example: API keys - read them from the macOS Keychain instead of storing them in plain text.
+# Store once (prompts for the value, so it doesn't end up in shell history):
+#   security add-generic-password -a "$USER" -s openai-api-key -w
+# Then:
+# export OPENAI_API_KEY="$(security find-generic-password -a "$USER" -s openai-api-key -w 2>/dev/null)"
+#
+# For GitHub, prefer `gh auth login` (stores the token in the Keychain) over GITHUB_TOKEN.
 
 # Example: Work-specific aliases
 # alias work-vpn="sudo openconnect your-vpn-server"
