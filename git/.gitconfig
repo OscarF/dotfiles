@@ -48,13 +48,11 @@
 	undo = reset --soft HEAD^
 	amend = commit --amend --no-edit
 	fixup = commit --fixup
-	main = !git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | cut -d'/' -f4 || echo 'master'
+	# Default branch: origin/HEAD if known, else main if it exists locally, else master
+	main = "!f() { ref=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null) && { echo \"${ref#origin/}\"; return; }; if git show-ref --verify --quiet refs/heads/main; then echo main; else echo master; fi; }; f"
 	sync = !git fetch origin && git rebase origin/$(git main)
-	clean-branches = !git branch --merged | grep -v '\\*\\|master\\|main' | xargs -n 1 git branch -d
-
-[branch "master"]
-	remote = origin
-	merge = refs/heads/master
+	# Delete local branches merged into HEAD (never main, master, or the current branch)
+	clean-branches = "!f() { cur=$(git branch --show-current); git for-each-ref --format='%(refname:short)' --merged HEAD refs/heads/ | grep -vxE \"main|master|$cur\" | xargs -n 1 git branch -d; }; f"
 
 [color]
 	ui = auto
