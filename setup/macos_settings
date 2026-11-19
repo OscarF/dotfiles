@@ -52,30 +52,51 @@ defaults write com.apple.dock "mru-spaces" -bool "false"
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
-# Trackpad behavior"
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad DragLock -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Dragging -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFiveFingerPinchGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerHorizSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerPinchGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerVertSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadHandResting -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadHorizScroll -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadMomentumScroll -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadPinch -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRotate -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadScroll -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -bool false
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad USBMouseStopsTrackpad -bool false
-# Disable swipe to go back/forward
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+# Trackpad behavior
+# Written to both domains:
+#   com.apple.AppleMultitouchTrackpad                   -> built-in (MacBook) trackpad
+#   com.apple.driver.AppleBluetoothMultitouch.trackpad  -> Magic Trackpad
+# Gesture ints: 0 = off, 2 = on (3 = on, for the right-edge swipe)
+for domain in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
+    # Pointing & clicking
+    defaults write "$domain" Clicking -bool true                       # Tap to click
+    defaults write "$domain" TrackpadRightClick -bool true             # Two-finger secondary click
+    defaults write "$domain" TrackpadCornerSecondaryClick -int 0       # No corner secondary click
+    defaults write "$domain" TrackpadThreeFingerTapGesture -int 0      # No look up / data detectors
+    defaults write "$domain" Dragging -bool false
+    defaults write "$domain" DragLock -bool false
+    defaults write "$domain" TrackpadThreeFingerDrag -bool false
+    defaults write "$domain" FirstClickThreshold -int 1                # Click pressure: medium
+    defaults write "$domain" SecondClickThreshold -int 1               # Force click pressure: medium
+    defaults write "$domain" ActuateDetents -int 1                     # Haptic feedback
+    defaults write "$domain" ForceSuppressed -bool false               # Force click enabled
+
+    # Scroll & zoom
+    defaults write "$domain" TrackpadScroll -bool true
+    defaults write "$domain" TrackpadHorizScroll -bool true
+    defaults write "$domain" TrackpadMomentumScroll -bool true
+    defaults write "$domain" TrackpadPinch -bool true                  # Pinch to zoom
+    defaults write "$domain" TrackpadTwoFingerDoubleTapGesture -int 1  # Smart zoom
+    defaults write "$domain" TrackpadRotate -bool true
+
+    # More gestures
+    defaults write "$domain" TrackpadThreeFingerHorizSwipeGesture -int 0       # No 3-finger swipe between pages/spaces
+    defaults write "$domain" TrackpadThreeFingerVertSwipeGesture -int 0        # No 3-finger Mission Control/App Exposé
+    defaults write "$domain" TrackpadFourFingerHorizSwipeGesture -int 2        # 4-finger swipe between spaces
+    defaults write "$domain" TrackpadFourFingerVertSwipeGesture -int 2         # 4-finger Mission Control/App Exposé
+    defaults write "$domain" TrackpadFourFingerPinchGesture -int 2             # Launchpad / show desktop
+    defaults write "$domain" TrackpadFiveFingerPinchGesture -int 2
+    defaults write "$domain" TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3 # Notification Center
+
+    defaults write "$domain" TrackpadHandResting -bool true
+    defaults write "$domain" USBMouseStopsTrackpad -int 0
+    defaults write "$domain" UserPreferences -bool true
+done
+
+# Force click & haptic feedback (global flag)
+defaults write NSGlobalDomain com.apple.trackpad.forceClick -bool true
+
+# Disable two-finger swipe to go back/forward
 defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
 
 # Bluetooth mouse settings
