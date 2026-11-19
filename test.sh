@@ -38,7 +38,6 @@ links=(
     .zshrc
     .zshenv
     .zprofile
-    .zsh_git_aliases
     .gitconfig
     .config/git/ignore
     .config/starship.toml

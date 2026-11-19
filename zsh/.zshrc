@@ -103,6 +103,9 @@ else
   alias lsd='ls -l | grep "^d"'
 fi
 
+# Git: Oh My Zsh's git plugin has most aliases (gst, gd, gco …). This replaces its gl (git pull).
+alias gl="git lg --all"  # Graph log of all branches (git lg is in ~/.gitconfig)
+
 # ==============================================================================
 # External Plugins
 # ==============================================================================
@@ -126,15 +129,6 @@ fi
 # Initialize Starship prompt (replaces 110 line custom bash prompt)
 if type starship &>/dev/null; then
   eval "$(starship init zsh)"
-fi
-
-# ==============================================================================
-# Git Aliases
-# ==============================================================================
-
-# Source git-specific aliases and functions
-if [[ -f "$HOME/.zsh_git_aliases" ]]; then
-  source "$HOME/.zsh_git_aliases"
 fi
 
 # ==============================================================================
