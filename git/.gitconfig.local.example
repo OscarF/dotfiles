@@ -29,19 +29,11 @@
 # [user]
 #     name = Your Work Name
 #     email = you@workcompany.com
-# [github]
-#     user = work-username
 
 # And ~/.gitconfig-personal:
 # [user]
 #     name = Your Personal Name
 #     email = you@personal.com
-# [github]
-#     user = personal-username
-
-# Example: GitHub configuration
-# [github]
-#     user = your-github-username
 
 # Example: Machine-specific settings
 # [core]
