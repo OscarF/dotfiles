@@ -5,11 +5,34 @@
 osascript -e 'tell application "System Settings" to quit' || true
 
 ###############################################################################
-# General UI/UX
+# Language, region and keyboard (log out and back in to apply)
 ###############################################################################
 
-# Preferred languages, in order (System Settings → General → Language & Region)
-defaults write NSGlobalDomain AppleLanguages -array "en-SE" "sv-SE"
+# The region sets the formats and units: 24-hour time, "19 Nov 2026",
+# "1 234 567,89", metric, Celsius, Monday first. Don't set those one by one.
+defaults write NSGlobalDomain AppleLanguages -array "en-SE" "sv-SE" "en-US"
+defaults write NSGlobalDomain AppleLocale -string "en_SE"
+
+# Keyboard layouts: Swedish - Pro (in use) and U.S. The list also keeps macOS's own
+# input methods (accent menu on key hold, emoji and symbols, dictation); leaving
+# them out would turn those off.
+defaults write com.apple.HIToolbox AppleEnabledInputSources -array \
+  '<dict><key>InputSourceKind</key><string>Keyboard Layout</string><key>KeyboardLayout ID</key><integer>0</integer><key>KeyboardLayout Name</key><string>U.S.</string></dict>' \
+  '<dict><key>InputSourceKind</key><string>Keyboard Layout</string><key>KeyboardLayout ID</key><integer>7</integer><key>KeyboardLayout Name</key><string>Swedish - Pro</string></dict>' \
+  '<dict><key>Bundle ID</key><string>com.apple.CharacterPaletteIM</string><key>InputSourceKind</key><string>Non Keyboard Input Method</string></dict>' \
+  '<dict><key>Bundle ID</key><string>com.apple.PressAndHold</string><key>InputSourceKind</key><string>Non Keyboard Input Method</string></dict>' \
+  '<dict><key>Bundle ID</key><string>com.apple.inputmethod.ironwood</string><key>InputSourceKind</key><string>Non Keyboard Input Method</string></dict>'
+defaults write com.apple.HIToolbox AppleSelectedInputSources -array \
+  '<dict><key>Bundle ID</key><string>com.apple.PressAndHold</string><key>InputSourceKind</key><string>Non Keyboard Input Method</string></dict>' \
+  '<dict><key>InputSourceKind</key><string>Keyboard Layout</string><key>KeyboardLayout ID</key><integer>7</integer><key>KeyboardLayout Name</key><string>Swedish - Pro</string></dict>'
+defaults write com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.Swedish-Pro"
+
+# Globe (fn) key switches the keyboard layout
+defaults write com.apple.HIToolbox AppleFnUsageType -int 1
+
+###############################################################################
+# General UI/UX
+###############################################################################
 
 # Disable shadows on screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
@@ -153,6 +176,7 @@ done
 # Print end
 echo ""
 print -P "%F{green}✅ MacOS automated setup finished!%f"
+print -P "%F{yellow}Log out and back in to apply the language, region and keyboard settings.%f"
 echo ""
 echo "Run defaults write com.apple.dock persistent-apps -array if you want to empty the dock"
 echo ""

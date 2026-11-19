@@ -22,7 +22,7 @@ After installing:
 2. Set your git name and email in `~/.gitconfig.local`.
 3. Set your terminal font to **JetBrainsMono Nerd Font** so prompt icons render. In VS Code, add `"terminal.integrated.fontFamily": "JetBrainsMono Nerd Font"` to `settings.json`.
 4. Open Rectangle and LinearMouse and grant them Accessibility access (System Settings → Privacy & Security → Accessibility), and Shottr Screen Recording access. Check Rectangle's "Launch on login" setting.
-5. Optional: run `./setup/macos_settings` to apply macOS system settings (keyboard, trackpad, Dock, Finder, menu bar, window tiling). It restarts the Dock and Finder.
+5. Optional: run `./setup/macos_settings` to apply macOS system settings (language, region, keyboard, trackpad, Dock, Finder, menu bar, window tiling). It restarts the Dock and Finder; log out and back in afterwards for the language, region and keyboard settings.
 
 ## Machine-specific settings
 

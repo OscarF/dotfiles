@@ -285,5 +285,6 @@ echo "  3. Set your terminal font to JetBrainsMono Nerd Font so prompt icons ren
 echo "     In VS Code, add to settings.json: \"terminal.integrated.fontFamily\": \"JetBrainsMono Nerd Font\""
 echo "  4. Open Rectangle and LinearMouse and grant them Accessibility access, and Shottr Screen Recording"
 echo "     access (System Settings → Privacy & Security). Check Rectangle's \"Launch on login\" setting."
-echo "  5. Optional: run ./setup/macos_settings to apply macOS system settings. It restarts the Dock and Finder."
+echo "  5. Optional: run ./setup/macos_settings to apply macOS system settings. It restarts the Dock and Finder;"
+echo "     log out and back in afterwards for the language, region and keyboard settings."
 echo ""
