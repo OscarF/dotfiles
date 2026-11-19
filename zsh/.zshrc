@@ -34,20 +34,8 @@ source $ZSH/oh-my-zsh.sh
 HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_ALL_DUPS     # Re-running a command removes its older copy
 
-# Completion options
-setopt AUTO_LIST                # Automatically list choices on ambiguous completion
-setopt AUTO_MENU                # Show completion menu on successive tab press
-setopt COMPLETE_IN_WORD         # Complete from both ends of a word
-
-# ==============================================================================
-# Completions
-# ==============================================================================
-
-# Case-insensitive completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-
-# Menu selection for completions
-zstyle ':completion:*' menu select
+# Completion: Oh My Zsh (lib/completion.zsh) sets the menu, case-insensitive and
+# partial-word matching. Overriding matcher-list here would turn the partial-word part off.
 
 # ==============================================================================
 # Convenience Functions
