@@ -6,6 +6,8 @@ Apple Silicon only: Homebrew's path (`/opt/homebrew`) is hardcoded.
 
 ## Install and update
 
+On a fresh Mac, the first `git` command offers to install Apple's Command Line Tools. Accept it, then clone.
+
 ```bash
 git clone <your-repo-url> ~/.dotfiles
 cd ~/.dotfiles
@@ -14,9 +16,13 @@ cd ~/.dotfiles
 
 `install.sh` installs Homebrew, Oh My Zsh and everything in the `Brewfile`, links the config files, enables the repo's pre-commit hook, makes Homebrew's zsh your default shell and finishes by running `./test.sh`. Files already in the way are moved to `~/.dotfiles-backup/<timestamp>/`. It's safe to run again, so to update, `git pull` and re-run it. Run `./test.sh` any time to check the setup.
 
-Optional: `./setup/macos_settings` applies macOS system settings (keyboard, trackpad, Dock, Finder, menu bar, window tiling). It restarts the Dock and Finder.
+After installing:
 
-Set your terminal font to **JetBrainsMono Nerd Font** so prompt icons render. In VS Code, add `"terminal.integrated.fontFamily": "JetBrainsMono Nerd Font"` to `settings.json`.
+1. Open a new terminal.
+2. Set your git name and email in `~/.gitconfig.local`.
+3. Set your terminal font to **JetBrainsMono Nerd Font** so prompt icons render. In VS Code, add `"terminal.integrated.fontFamily": "JetBrainsMono Nerd Font"` to `settings.json`.
+4. Open Rectangle and LinearMouse and grant them Accessibility access (System Settings → Privacy & Security → Accessibility), and Shottr Screen Recording access. Check Rectangle's "Launch on login" setting.
+5. Optional: run `./setup/macos_settings` to apply macOS system settings (keyboard, trackpad, Dock, Finder, menu bar, window tiling). It restarts the Dock and Finder.
 
 ## Machine-specific settings
 
@@ -69,8 +75,6 @@ Changes you make in Rectangle and LinearMouse show up in the repo automatically.
 ./setup/app_settings export          # Export now (the watcher normally does this)
 ./setup/app_settings remove-watcher  # Stop watching
 ```
-
-On a new machine, you still need to give Rectangle Accessibility access (System Settings → Privacy & Security → Accessibility) and check its "Launch on login" setting.
 
 ## Uninstall
 
