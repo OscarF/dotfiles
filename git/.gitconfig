@@ -50,7 +50,6 @@
 	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(blue)% h%Creset% gd'
 	wdiff = diff -w --color-words
 	wstaged = diff --staged -w --color-words
-	w = wtf
 	shallow-clone = clone --depth=1
 
 	# Modern aliases
