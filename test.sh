@@ -53,6 +53,13 @@ for link in "${links[@]}"; do
     fi
 done
 
+print_test "App settings watcher is loaded"
+if launchctl print "gui/$(id -u)/local.dotfiles.app-settings" &>/dev/null; then
+    pass
+else
+    fail "LaunchAgent not loaded (run: setup/app_settings install-watcher)"
+fi
+
 echo ""
 
 # ==============================================================================

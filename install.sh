@@ -192,6 +192,13 @@ print -P "%F{blue}🧹 Cleaning up...%f"
 brew cleanup
 print -P "%F{green}✓ Cleanup complete%f"
 
+# Rectangle settings: import from repo, then watch for changes
+echo ""
+print -P "%F{blue}🪟 Syncing app settings...%f"
+"$DOTFILES_DIR/setup/app_settings" import
+"$DOTFILES_DIR/setup/app_settings" install-watcher
+print -P "%F{green}✓ App settings imported, watcher installed%f"
+
 # Set Homebrew zsh as default shell
 echo ""
 print -P "%F{blue}🐚 Setting Homebrew zsh as default shell...%f"
