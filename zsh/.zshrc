@@ -59,6 +59,7 @@ cdf() {
 }
 
 
+# Pull (fast-forward only) every git repo directly under a directory, in parallel
 pull-all-git-repositories-in-directory() {
   local parent="${1:-.}"
   local dirs=()
@@ -75,13 +76,16 @@ pull-all-git-repositories-in-directory() {
   (
     for dir in "${dirs[@]}"; do
       (
-        result=$(git -C "$dir" pull --ff-only 2>&1)
-        print "✓ ${dir%/} — $result"
+        if result=$(git -C "$dir" pull --ff-only 2>&1); then
+          print "✓ ${dir%/} — $result"
+        else
+          print -P "%F{red}✗ ${dir%/}%f — ${result//\%/%%}"
+        fi
       ) &
     done
     wait
-    )
-  }
+  )
+}
 
 
 # ==============================================================================
