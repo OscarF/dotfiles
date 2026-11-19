@@ -37,6 +37,7 @@ echo "1. Checking symlinks..."
 links=(
     .zshrc
     .zshenv
+    .zprofile
     .zsh_git_aliases
     .gitconfig
     .config/starship.toml
