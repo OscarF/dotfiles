@@ -61,13 +61,6 @@
 	# Delete local branches merged into HEAD (never main, master, or the current branch)
 	clean-branches = "!f() { cur=$(git branch --show-current); git for-each-ref --format='%(refname:short)' --merged HEAD refs/heads/ | grep -vxE \"main|master|$cur\" | xargs -n 1 git branch -d; }; f"
 
-[color]
-	ui = auto
-	branch = auto
-	diff = auto
-	interactive = auto
-	status = auto
-
 [color "branch"]
 	current = white cyan bold
 	local = cyan
@@ -104,7 +97,6 @@
 	whitespace = fix
 
 [help]
-	format = man
 	autocorrect = 7
 
 # Include machine-specific configuration (not tracked in git)
