@@ -29,9 +29,8 @@ source $ZSH/oh-my-zsh.sh
 # Zsh Options
 # ==============================================================================
 
-# History: Oh My Zsh (lib/history.zsh) sets size (50k in memory, 10k saved), timestamps,
-# shared history across sessions, ignore-space and verify. Only additions here:
-HISTFILE=~/.zsh_history
+# History: Oh My Zsh (lib/history.zsh) sets the file (~/.zsh_history), size (50k in memory,
+# 10k saved), timestamps, shared history across sessions, ignore-space and verify. Only additions here:
 setopt HIST_IGNORE_ALL_DUPS     # Re-running a command removes its older copy
 
 # Completion: Oh My Zsh (lib/completion.zsh) sets the menu, case-insensitive and
