@@ -194,8 +194,12 @@ echo ""
 print -P "%F{blue}📦 Installing packages from Brewfile...%f"
 print -P "%F{blue}   This may take several minutes...%f"
 # Only install what's missing; upgrading is a separate, deliberate `brew upgrade`
-brew bundle install --no-upgrade --file="Brewfile"
-print -P "%F{green}✓ All packages installed%f"
+if brew bundle install --no-upgrade --file="Brewfile"; then
+    print -P "%F{green}✓ All packages installed%f"
+else
+    BUNDLE_FAILED=1
+    print -P "%F{yellow}⚠ Some packages failed to install (see above); continuing%f"
+fi
 
 # Link shell completions and cleanup
 brew completions link
@@ -261,6 +265,9 @@ fi
 # Summary
 echo ""
 print -P "%F{green}✅ Complete automated setup finished!%f"
+if [[ -n "$BUNDLE_FAILED" ]]; then
+    print -P "%F{yellow}⚠ Some Brewfile packages failed. Fix the errors above, then run: brew bundle install --file=Brewfile%f"
+fi
 echo ""
 echo "What was installed:"
 echo "  ✓ Homebrew package manager"
