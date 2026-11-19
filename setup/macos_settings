@@ -89,40 +89,20 @@ defaults write -g com.apple.trackpad.scaling -float 3.5
 defaults write -g com.apple.mouse.scaling -float 0.4
 
 ###############################################################################
-# Control center
+# Menu bar
 ###############################################################################
 
-# Menu bar
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position Battery" -int 144
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position BentoBox" -int 112
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position Clock" -int 92
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position Display" -int 215
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position FocusModes" -int 409
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position NowPlaying" -int 371
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position ScreenMirroring" -int 186
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position Sound" -int 411
-defaults write com.apple.controlcenter "NSStatusItem Preferred Position WiFi" -int 171
-defaults write com.apple.controlcenter "NSStatusItem Visible AudioVideoModule" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool true
-defaults write com.apple.controlcenter "NSStatusItem Visible BentoBox" -bool true
-defaults write com.apple.controlcenter "NSStatusItem Visible Clock" -bool true
-defaults write com.apple.controlcenter "NSStatusItem Visible Display" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible FaceTime" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible FocusModes" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-0" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-1" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-2" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-3" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-4" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-5" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-6" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-7" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Item-8" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -bool true
-defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Shortcuts" -bool false
-defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -bool false
+# Set only what differs from macOS defaults. Some items use undocumented "VisibleCC"
+# keys instead of "Visible" (seen on macOS 27); check them after a major macOS upgrade.
+defaults write com.apple.controlcenter "NSStatusItem VisibleCC Sound" -bool true        # Always, not only while active
 defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible Display" -bool false
+defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -bool false
+
+# Clock: always show the date, no weekday, e.g. "19 Nov 19:02". 24-hour time and the
+# day-month order come from the region (en_SE), not from these settings.
+defaults write com.apple.menuextra.clock ShowDate -int 1
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool false
 
 
 ###############################################################################
@@ -173,7 +153,7 @@ defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false     
 # Some of these changes require a logout/restart to take effect.
 # Restart affected apps so the rest take effect now.
 for app in "Activity Monitor" "cfprefsd" \
-  "Dock" "Finder" "SystemUIServer"; do
+  "Dock" "Finder" "SystemUIServer" "ControlCenter"; do
   killall "${app}" > /dev/null 2>&1
 done
 
