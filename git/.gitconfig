@@ -37,18 +37,9 @@
 [alias]
 	# Existing aliases
 	co = checkout
-	st = status
-	ci = commit
 	staged = diff --cached
-	both = diff HEAD
-	oneline = log --pretty=oneline
-	b = branch -a
 	unstage = reset HEAD
-	sum = log --pretty=format:"%h %Cblue%ai%Creset %Cgreen%an%Creset %s"
 	lg = log --graph --decorate --format=tformat:'%C(green)%aN%Creset %s %C(yellow)%ar%Creset%C(red)%d%Creset%C(blue)% h%Creset% gd'
-	wdiff = diff -w --color-words
-	wstaged = diff --staged -w --color-words
-	shallow-clone = clone --depth=1
 
 	# Modern aliases
 	recent = branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative))%(color:reset)'
