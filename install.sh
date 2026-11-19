@@ -193,7 +193,8 @@ fi
 echo ""
 print -P "%F{blue}📦 Installing packages from Brewfile...%f"
 print -P "%F{blue}   This may take several minutes...%f"
-brew bundle install --file="Brewfile"
+# Only install what's missing; upgrading is a separate, deliberate `brew upgrade`
+brew bundle install --no-upgrade --file="Brewfile"
 print -P "%F{green}✓ All packages installed%f"
 
 # Link shell completions and cleanup
