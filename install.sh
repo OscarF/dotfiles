@@ -225,7 +225,7 @@ HOMEBREW_ZSH="/opt/homebrew/bin/zsh"
 
 if [[ ! -f "$HOMEBREW_ZSH" ]]; then
     print -P "%F{red}✗ Error: Could not find Homebrew zsh at $HOMEBREW_ZSH%f"
-    print -P "%F{red}  This dotfiles setup requires Apple Silicon Mac%f"
+    print -P "%F{red}  It should have been installed from the Brewfile. Run: brew install zsh, then re-run ./install.sh%f"
     exit 1
 fi
 
