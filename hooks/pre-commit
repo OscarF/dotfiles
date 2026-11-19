@@ -1,0 +1,53 @@
+#!/usr/bin/env zsh
+
+# Pre-commit hook: syntax-check / lint staged shell files.
+# Enabled per clone with `git config core.hooksPath hooks` (install.sh does this).
+#
+#   zsh files  -> zsh -n   (shellcheck doesn't support zsh; bash mode gives false errors)
+#   sh/bash    -> shellcheck (installed by the Brewfile)
+
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+NC=$'\033[0m'
+
+is_zsh() {
+    [[ "$1" == *.zsh || "$1" == zsh/* ]] && return 0
+    head -n1 "$1" | grep -q 'zsh'
+}
+
+files=()
+while IFS= read -r file; do
+    [[ -f "$file" ]] && files+=("$file")
+done < <(git diff --cached --name-only --diff-filter=ACM |
+    grep -E '\.(sh|zsh|bash)$|^setup/|^hooks/|^zsh/\.z')
+
+if (( ${#files} == 0 )); then
+    exit 0
+fi
+
+failed=0
+echo "Checking shell files..."
+for file in "${files[@]}"; do
+    if is_zsh "$file"; then
+        tool="zsh -n"
+        output=$(zsh -n "$file" 2>&1)
+    else
+        tool="shellcheck"
+        output=$(shellcheck "$file" 2>&1)
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        echo "  ${GREEN}✓${NC} $file ($tool)"
+    else
+        echo "  ${RED}✗${NC} $file ($tool)"
+        echo "$output" | sed 's/^/      /'
+        failed=1
+    fi
+done
+
+if (( failed )); then
+    echo ""
+    echo "${RED}✗ Fix the issues above before committing.${NC}"
+    echo "  To commit anyway: git commit --no-verify"
+    exit 1
+fi

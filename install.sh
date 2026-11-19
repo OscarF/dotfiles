@@ -151,6 +151,10 @@ fi
 
 print -P "%F{green}✓ Symlinks created and validated%f"
 
+# Use the versioned git hooks in hooks/ (pre-commit lint) for this clone
+git -C "$DOTFILES_DIR" config core.hooksPath hooks
+print -P "%F{green}✓ Git hooks enabled (core.hooksPath = hooks)%f"
+
 # Create .zshrc.local if it doesn't exist
 if [ ! -f "$HOME/.zshrc.local" ]; then
     echo ""
