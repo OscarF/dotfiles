@@ -34,40 +34,21 @@ echo ""
 # ==============================================================================
 echo "1. Checking symlinks..."
 
-print_test "~/.zshrc exists and is a symlink"
-if [ -L "$HOME/.zshrc" ] && [ -e "$HOME/.zshrc" ]; then
-    pass
-else
-    fail "~/.zshrc is missing or not a symlink"
-fi
-
-print_test "~/.zshenv exists and is a symlink"
-if [ -L "$HOME/.zshenv" ] && [ -e "$HOME/.zshenv" ]; then
-    pass
-else
-    fail "~/.zshenv is missing or not a symlink"
-fi
-
-print_test "~/.zsh_git_aliases exists and is a symlink"
-if [ -L "$HOME/.zsh_git_aliases" ] && [ -e "$HOME/.zsh_git_aliases" ]; then
-    pass
-else
-    fail "~/.zsh_git_aliases is missing or not a symlink"
-fi
-
-print_test "~/.gitconfig exists and is a symlink"
-if [ -L "$HOME/.gitconfig" ] && [ -e "$HOME/.gitconfig" ]; then
-    pass
-else
-    fail "~/.gitconfig is missing or not a symlink"
-fi
-
-print_test "~/.config/starship.toml exists and is a symlink"
-if [ -L "$HOME/.config/starship.toml" ] && [ -e "$HOME/.config/starship.toml" ]; then
-    pass
-else
-    fail "~/.config/starship.toml is missing or not a symlink"
-fi
+links=(
+    .zshrc
+    .zshenv
+    .zsh_git_aliases
+    .gitconfig
+    .config/starship.toml
+)
+for link in "${links[@]}"; do
+    print_test "~/$link exists and is a symlink"
+    if [ -L "$HOME/$link" ] && [ -e "$HOME/$link" ]; then
+        pass
+    else
+        fail "~/$link is missing or not a symlink (re-run ./install.sh)"
+    fi
+done
 
 echo ""
 
