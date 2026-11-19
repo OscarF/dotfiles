@@ -1,7 +1,5 @@
-# Note: user.name and user.email are intentionally not set here
-# Configure them in your machine-specific ~/.gitconfig.local or globally:
-#   git config --global user.name "Your Name"
-#   git config --global user.email "your.email@example.com"
+# user.name and user.email go in ~/.gitconfig.local (included at the end), not here.
+# Don't use `git config --global`: it writes into this file, which is in the repo.
 
 [core]
 	editor = code -w
