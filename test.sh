@@ -148,36 +148,36 @@ fi
 echo ""
 
 # ==============================================================================
-# Test 4: Modern CLI Tools (Optional)
+# Test 4: CLI Tools
 # ==============================================================================
-echo "4. Checking modern CLI tools..."
+echo "4. Checking CLI tools from the Brewfile..."
 
-print_test "eza (modern ls) is installed"
+print_test "eza (used by the ls aliases) is installed"
 if command -v eza &>/dev/null; then
     pass
 else
-    fail "eza not found (optional)"
+    fail "eza not found (run: brew bundle install --file=Brewfile)"
 fi
 
 print_test "bat (modern cat) is installed"
 if command -v bat &>/dev/null; then
     pass
 else
-    fail "bat not found (optional)"
+    fail "bat not found (run: brew bundle install --file=Brewfile)"
 fi
 
 print_test "fzf (fuzzy finder) is installed"
 if command -v fzf &>/dev/null; then
     pass
 else
-    fail "fzf not found (optional)"
+    fail "fzf not found (run: brew bundle install --file=Brewfile)"
 fi
 
 print_test "ripgrep is installed"
 if command -v rg &>/dev/null; then
     pass
 else
-    fail "rg not found (optional)"
+    fail "rg not found (run: brew bundle install --file=Brewfile)"
 fi
 
 echo ""
