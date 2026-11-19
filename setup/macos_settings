@@ -4,26 +4,11 @@
 # settings we’re about to change
 osascript -e 'tell application "System Settings" to quit' || true
 
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until script has finished
-# Store background process PID for cleanup
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-SUDO_KEEPALIVE_PID=$!
-
-# Cleanup function to kill sudo keep-alive
-cleanup() {
-    kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
-}
-trap cleanup EXIT INT TERM
-
-
 ###############################################################################
 # General UI/UX
 ###############################################################################
 
-# Setting keyboard layouts
+# Preferred languages, in order (System Settings → General → Language & Region)
 defaults write NSGlobalDomain AppleLanguages -array "en-SE" "sv-SE"
 
 # Disable shadows on screenshots
@@ -185,10 +170,8 @@ defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false     
 # None right now
 
 
-# Note that some of these changes require a logout/restart to take effect."
-# Killing some open applications in order to take effect."
-
-find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
+# Some of these changes require a logout/restart to take effect.
+# Restart affected apps so the rest take effect now.
 for app in "Activity Monitor" "cfprefsd" \
   "Dock" "Finder" "SystemUIServer"; do
   killall "${app}" > /dev/null 2>&1
